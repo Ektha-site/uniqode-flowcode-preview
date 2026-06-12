@@ -127,6 +127,9 @@
   .faq summary::after { content:"+"; color:var(--faint); }
   .faq details[open] summary::after { content:"–"; }
   .faq .body { padding:0 16px 14px; color:var(--muted); font-size:14px; }
+  table.val.lite th.vch, table.val.lite td.vc { background:#fbfcfe; }
+  table.val.lite td.vc { font-style:italic; color:var(--faint); font-size:12.5px; }
+  table.val.lite td, table.val.lite th { padding:14px 14px; }
   .duel { margin-top:44px; }
   .duel-title { text-align:center; font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); }
   .duel-verdict { text-align:center; font-size:20px; font-weight:650; margin:6px 0 18px; letter-spacing:-0.2px; }
@@ -239,85 +242,46 @@
     <h2 class="center">Uniqode vs. Flowcode: compare the costs</h2>
     <p class="sub center">Uniqode gives you more for your money as your QR campaigns grow. Flowcode's own customers describe the opposite on G2: it costs more each year and lets them do less.</p>
 
-    <div class="duel">
-      <p class="duel-title">Entry plans</p>
-      <p class="duel-verdict">166x more scans. $11 less per month.</p>
-      <div class="duel-cards">
-        <div class="plan-card u-card">
-          <p class="plan-name">Uniqode Core</p>
-          <p class="plan-price">$49<span>/mo</span></p>
-          <ul>
-            <li><b>250</b> dynamic QR Codes</li>
-            <li><b>1M</b> tracked scans a year</li>
-            <li>GA4 + Zapier included</li>
-            <li>24/7 live support</li>
-          </ul>
-        </div>
-        <div class="plan-card">
-          <p class="plan-name">Flowcode Pro Plus</p>
-          <p class="plan-price">$60<span>/mo</span></p>
-          <ul>
-            <li>50 dynamic QR Codes</li>
-            <li>6,000 tracked scans</li>
-            <li>GA4 + Zapier not listed</li>
-            <li>Live support on higher tiers</li>
-          </ul>
-        </div>
-      </div>
+    <div class="pills" id="pricing-pills">
+      <button class="pill active" data-panel="pp1">Small and medium businesses</button>
+      <button class="pill" data-panel="pp2">Growing teams</button>
+      <button class="pill" data-panel="pp3">Enterprise</button>
     </div>
 
-    <div class="duel">
-      <p class="duel-title">Growth plans</p>
-      <p class="duel-verdict">3x the QR Codes at a third of the price.</p>
-      <div class="duel-cards">
-        <div class="plan-card u-card">
-          <p class="plan-name">Uniqode Plus</p>
-          <p class="plan-price">$99<span>/mo</span></p>
-          <ul>
-            <li><b>500</b> dynamic QR Codes</li>
-            <li><b>2M</b> tracked scans a year</li>
-            <li>Role-based access control</li>
-            <li>Scheduled reports included</li>
-          </ul>
-        </div>
-        <div class="plan-card">
-          <p class="plan-name">Flowcode Growth</p>
-          <p class="plan-price">$300<span>/mo</span></p>
-          <ul>
-            <li>150 dynamic QR Codes</li>
-            <li>10,000 tracked scans</li>
-            <li>Custom admin permissions</li>
-            <li>Scheduled reports included</li>
-          </ul>
-        </div>
-      </div>
+    <div class="panel active" id="pp1">
+      <table class="val lite">
+        <tr><th style="width:17%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th class="vch">Value comparison</th></tr>
+        <tr><td class="lbl">Dynamic QR Codes</td><td class="u"><b>250</b> ($49/mo)</td><td>50 ($60/mo)</td><td class="vc">Uniqode offers 5x the QR Codes at a lower monthly price than Flowcode.</td></tr>
+        <tr><td class="lbl">Tracked scans</td><td class="u"><b>1M</b> a year ($49/mo)</td><td>Capped at 6,000 ($60/mo)</td><td class="vc">Uniqode tracks 166x more scans than Flowcode for $11 less a month.</td></tr>
+        <tr><td class="lbl">Google Analytics + Zapier</td><td class="u">Included ($49/mo)</td><td>Not listed</td><td class="vc">Uniqode connects to your existing marketing stack at $49; Flowcode doesn't list these integrations on any self-serve plan.</td></tr>
+        <tr><td class="lbl">Best value plan</td><td class="u">Plus: <b>500</b> codes, <b>2M</b> scans ($99/mo)</td><td>Growth: 150 codes, 10,000 scans ($300/mo)</td><td class="vc">Uniqode's best-value plan gives 3x the codes at a third of Flowcode's price.</td></tr>
+        <tr><td class="lbl">Security</td><td class="u">SOC 2, HIPAA, ISO 27001, MFA, and bot filtering from $9/mo</td><td>SOC 2, HIPAA, and GDPR from $60/mo; MFA and bot filtering on higher tiers</td><td class="vc">Uniqode includes its full security stack from $9 a month; Flowcode splits security features across tiers.</td></tr>
+        <tr><td class="lbl">Customer support</td><td class="u">24/7 live support on all plans</td><td>Live support from $300/mo only</td><td class="vc">Uniqode includes 24/7 live support on every plan; on Flowcode, live support starts at $300 a month.</td></tr>
+      </table>
     </div>
 
-    <div class="duel">
-      <p class="duel-title">Enterprise plans</p>
-      <p class="duel-verdict">Most integrations Flowcode reserves for Enterprise are on Uniqode's standard plans.</p>
-      <div class="duel-cards">
-        <div class="plan-card u-card">
-          <p class="plan-name">Uniqode Enterprise</p>
-          <p class="plan-price">Custom</p>
-          <ul>
-            <li>Custom QR Code volume</li>
-            <li><b>Lifetime</b> data retention</li>
-            <li>SOC 2 Type 2, GDPR, HIPAA, ISO 27001, BAAs</li>
-            <li>SSO from $399/mo</li>
-          </ul>
-        </div>
-        <div class="plan-card">
-          <p class="plan-name">Flowcode Enterprise</p>
-          <p class="plan-price">Custom</p>
-          <ul>
-            <li>Unlimited QR Codes</li>
-            <li>Analytics uncapped</li>
-            <li>All certifications at Enterprise</li>
-            <li>White labeling from $300/mo</li>
-          </ul>
-        </div>
-      </div>
+    <div class="panel" id="pp2">
+      <table class="val lite">
+        <tr><th style="width:17%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th class="vch">Value comparison</th></tr>
+        <tr><td class="lbl">Team plan</td><td class="u"><b>500</b> codes, roles, bulk ($99/mo)</td><td>150 codes, roles, bulk ($300/mo)</td><td class="vc">Uniqode's team plan covers 3x the QR Codes at a third of Flowcode's price.</td></tr>
+        <tr><td class="lbl">Tracked scans</td><td class="u"><b>2M</b> a year ($99/mo)</td><td>Starts at 10,000 ($300/mo)</td><td class="vc">Uniqode tracks 200x more scans than Flowcode's Growth plan, at $201 less a month.</td></tr>
+        <tr><td class="lbl">Bulk generation</td><td class="u"><b>1,000</b> per batch ($99/mo)</td><td>1,000 per batch ($300/mo)</td><td class="vc">The same 1,000-code batch costs 3x more to create on Flowcode.</td></tr>
+        <tr><td class="lbl">Security</td><td class="u">Role-based access, MFA, and bot filtering ($99/mo); SSO ($399/mo)</td><td>Custom admin permissions ($300/mo); SSO and enhanced security at Enterprise</td><td class="vc">Uniqode delivers team-grade security at $99; Flowcode reserves most of it for Enterprise.</td></tr>
+        <tr><td class="lbl">Scheduled reports</td><td class="u">Every plan, from $9/mo</td><td>$300/mo</td><td class="vc">Scheduled reports come with every Uniqode plan; Flowcode includes them only from $300 a month.</td></tr>
+        <tr><td class="lbl">GPS scan map</td><td class="u">$49/mo</td><td>$300/mo</td><td class="vc">Location-level scan data costs $49 on Uniqode and $300 on Flowcode.</td></tr>
+        <tr><td class="lbl">Retargeting audiences</td><td class="u">$399/mo, listed</td><td>Quote only</td><td class="vc">Uniqode publishes the price of retargeting; Flowcode requires a sales call to learn it.</td></tr>
+      </table>
+    </div>
+
+    <div class="panel" id="pp3">
+      <table class="val lite">
+        <tr><th style="width:17%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th class="vch">Value comparison</th></tr>
+        <tr><td class="lbl">Dynamic QR Codes</td><td class="u">Custom volume</td><td>Unlimited</td><td class="vc">Both platforms scale to enterprise volume; neither caps you here.</td></tr>
+        <tr><td class="lbl">SSO and white labeling</td><td class="u">SSO from $399/mo; white labeling at Enterprise</td><td>White labeling from $300/mo; SSO at Enterprise</td><td class="vc">Uniqode offers SSO without an enterprise contract; Flowcode offers white labeling earlier.</td></tr>
+        <tr><td class="lbl">Compliance</td><td class="u">SOC 2 Type 2, GDPR, HIPAA, ISO 27001, BAAs</td><td>All certifications at Enterprise</td><td class="vc">Both reach full compliance at the top tier, but Uniqode's certifications apply from $9 a month.</td></tr>
+        <tr><td class="lbl">Analytics</td><td class="u">Custom volume, <b>lifetime</b> data retention</td><td>Unlimited analytics cap</td><td class="vc">Both uncap analytics at Enterprise; Uniqode also keeps your scan data for life.</td></tr>
+        <tr><td class="lbl">Integrations</td><td class="u">GA4, Meta Pixel, Google Ads, Zapier, API with published limits, from $49&ndash;399/mo</td><td>Full API, webhooks, S3, FlowcodeTV at Enterprise</td><td class="vc">Most integrations Flowcode reserves for Enterprise are available on Uniqode's standard plans.</td></tr>
+      </table>
     </div>
 
     <p class="note">Note: While researching this comparison, we found that Flowcode's information isn't consistent across their site. The pricing page and the help center disagree on what each plan includes, and in places, on what a feature even means. So before signing, confirm anything that matters to you in writing.</p>
@@ -333,28 +297,23 @@
 <!-- Migration -->
 <section>
   <div class="wrap">
-    <h2 class="center">Switching from Flowcode? We'll help you migrate.</h2>
-    <p class="sub center">Moving platforms doesn't mean rebuilding your QR program from scratch.</p>
-    <p class="sub center" style="margin-top:8px;">Our team can help migrate your QR codes, destinations, branding, and account setup so you can transition with minimal disruption.</p>
-
-    <h3 style="font-size:19px; font-weight:650; margin-top:40px;">What the process looks like</h3>
-    <div style="margin-top:6px;">
-      <div class="step"><div class="n">1</div><p>Review your existing Flowcode setup</p></div>
-      <div class="step"><div class="n">2</div><p>Migrate QR codes and campaign assets</p></div>
-      <div class="step"><div class="n">3</div><p>Validate links, branding, and destinations</p></div>
-      <div class="step"><div class="n">4</div><p>Launch with onboarding and support</p></div>
+    <h2 class="center">Switching from Flowcode? You don't have to start over.</h2>
+    <div class="mig" style="margin-top:26px;">
+      <p class="body" style="margin-top:0;">One national broadcast group with more than 40 local stations came to us before their Flowcode renewal.</p>
+      <p class="body">They ran client campaigns, on-air contests, and app download campaigns through Flowcode. The platform worked, but rising costs and constant account changes had them exploring alternatives.</p>
+      <p class="body">Their biggest concern wasn't choosing a new platform.</p>
+      <p class="body" style="font-weight:600; color:var(--ink);">It was everything they'd already built.</p>
     </div>
 
-    <h3 style="font-size:19px; font-weight:650; margin-top:40px;">How one team made the switch</h3>
-    <div class="mig" style="margin-top:14px;">
-      <p class="body" style="margin-top:0;">A mid-sized company came to Uniqode after several years on Flowcode.</p>
-      <p class="body">Their QR campaigns were working, but rising renewal costs and changing account ownership prompted them to evaluate alternatives.</p>
-      <p class="body">What surprised them most wasn't the product comparison, it was how straightforward the migration turned out to be.</p>
-      <p class="body">After reviewing their setup, the team moved their QR program to Uniqode and continued running campaigns without rebuilding everything from scratch.</p>
+    <h3 style="font-size:19px; font-weight:650; margin-top:40px;">How we made the switch easier</h3>
+    <div style="margin-top:6px;">
+      <div class="step"><div class="n">1</div><div><p style="font-weight:650; color:var(--ink);">Keep existing QR Codes live</p><p>If your QR Codes use a custom domain, we can help move them to Uniqode without replacing QR Codes already printed on packaging, signage, marketing materials, or other customer touchpoints.</p></div></div>
+      <div class="step"><div class="n">2</div><div><p style="font-weight:650; color:var(--ink);">Start new campaigns immediately</p><p>There's no need to wait for your Flowcode contract to end. New campaigns can go live on Uniqode while the migration is underway.</p></div></div>
+      <div class="step"><div class="n">3</div><div><p style="font-weight:650; color:var(--ink);">Get hands-on migration support</p><p>A dedicated customer success manager helps plan the move, onboard your team, and make sure nothing falls through the cracks.</p></div></div>
     </div>
 
     <div class="center" style="margin-top:28px;">
-      <a class="btn btn-primary" href="/demo">Talk to our team &rarr;</a>
+      <a class="btn btn-primary" href="/demo">Book my Demo</a>
     </div>
   </div>
 </section>
@@ -493,6 +452,7 @@
       });
     });
   }
+  wireTabs('pricing-pills');
   wireTabs('faq-pills');
 })();
 </script>
