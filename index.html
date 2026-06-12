@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uniqode vs. Flowcode</title>
+<style>
+  :root { --blue:#2563eb; --blue-soft:#eef4ff; --blue-ink:#1d4ed8; --ink:#16212f; --muted:#5e6980; --faint:#98a1b3; --line:#e6e8ee; --bg:#fff; --soft:#f6f8fb; --dark:#0b0c0f; --good:#0f8a5f; --warn:#c07c1a; --bad:#c23434; --star:#f59e0b; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.65; }
+  section { padding:80px 24px; }
+  .wrap { max-width:760px; margin:0 auto; }
+  .wrap-wide { max-width:920px; margin:0 auto; }
+  h1 { font-size:46px; font-weight:700; letter-spacing:-0.5px; }
+  h2 { font-size:28px; font-weight:650; letter-spacing:-0.3px; }
+  .center { text-align:center; }
+  .sub { color:var(--muted); font-size:17px; max-width:720px; margin:16px auto 0; }
+  .ctas { margin-top:30px; display:flex; gap:12px; justify-content:center; }
+  .btn { display:inline-block; padding:13px 28px; border-radius:8px; font-size:15px; font-weight:600; text-decoration:none; cursor:pointer; border:none; transition:transform .15s ease, box-shadow .15s ease; }
+  .btn:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(37,99,235,.18); }
+  .btn-primary { background:var(--blue); color:#fff; }
+  .btn-ghost { border:1.5px solid var(--line); color:var(--ink); background:#fff; }
+  .soft { background:var(--soft); }
+
+  /* Logo band — Uniqode site style */
+  .band { background:var(--dark); padding:54px 0; overflow:hidden; }
+  .band p { color:#fff; text-align:center; font-size:17px; margin-bottom:34px; }
+  .band .heart { color:#f9a8d4; }
+  .marquee { display:flex; width:max-content; animation:scroll 28s linear infinite; }
+  .marquee:hover { animation-play-state:paused; }
+  .brands { display:flex; align-items:center; gap:72px; padding-right:72px; }
+  .brand { color:#fff; opacity:.92; white-space:nowrap; }
+  .b-toyota { font-weight:700; letter-spacing:.18em; font-size:20px; }
+  .b-amazon { font-weight:700; font-size:26px; text-transform:lowercase; }
+  .b-revlon { font-family:Georgia,serif; letter-spacing:.3em; font-size:22px; }
+  .b-pepsi { font-weight:600; font-size:25px; text-transform:lowercase; }
+  .b-hilton { font-family:Georgia,'Times New Roman',serif; font-size:27px; }
+  .b-marriott { font-weight:600; letter-spacing:.22em; font-size:17px; }
+  .b-wwf { font-weight:800; font-size:24px; }
+  .b-nestle { font-family:Georgia,serif; font-size:23px; font-style:italic; }
+  @keyframes scroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+  /* Comparison — compact rows, eye-icon reveal */
+  .cmp { background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-top:28px; }
+  .cmp-head, .cmp-row { display:grid; grid-template-columns:32% 36% 32%; }
+  .cmp-head div { padding:14px 16px; font-weight:600; font-size:14.5px; }
+  .cmp-head .u { background:var(--blue-soft); color:var(--blue-ink); border-left:1px solid var(--line); }
+  .cmp-head .f { border-left:1px solid var(--line); }
+  .cmp-block { border-top:1px solid var(--line); }
+  .cmp-row > div { padding:13px 16px; font-size:13.5px; color:var(--muted); }
+  .cmp-row .lbl { font-weight:600; color:var(--ink); display:flex; align-items:flex-start; gap:8px; justify-content:space-between; }
+  .cmp-row .u { background:#f7faff; border-left:1px solid var(--line); }
+  .cmp-row .f { border-left:1px solid var(--line); }
+  .mk { font-weight:700; margin-right:5px; }
+  .mk.y { color:var(--good); } .mk.h { color:var(--warn); } .mk.n { color:var(--bad); }
+  .eye { background:none; border:none; cursor:pointer; padding:2px; color:var(--faint); flex-shrink:0; border-radius:6px; transition:color .15s ease, background .15s ease; line-height:0; }
+  .eye:hover { color:var(--blue); background:var(--blue-soft); }
+  .eye.open { color:var(--blue); }
+  .eye svg { width:16px; height:16px; }
+  .rowdetail { display:none; padding:4px 16px 14px; font-size:13.5px; color:var(--muted); background:#fbfcfe; }
+  .rowdetail.show { display:block; }
+  .legend { text-align:center; font-size:12.5px; color:var(--faint); margin-top:12px; }
+
+  /* Reviews + G2 bar */
+  .reviews { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; margin-top:28px; }
+  .review { background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px; display:flex; flex-direction:column; transition:box-shadow .2s ease; }
+  .review:hover { box-shadow:0 6px 22px rgba(22,33,47,.06); }
+  .review p.quote { font-size:14px; font-style:italic; flex:1; }
+  .review .who { display:flex; align-items:center; gap:10px; margin-top:16px; }
+  .review .avatar { width:34px; height:34px; border-radius:50%; background:var(--blue-soft); color:var(--blue-ink); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .review .nm { font-size:13px; font-weight:600; }
+  .review .rl { font-size:12px; color:var(--muted); }
+  .g2bar { display:flex; align-items:center; justify-content:center; gap:14px; margin-top:26px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 22px; flex-wrap:wrap; }
+  .g2logo { width:30px; height:30px; border-radius:6px; background:#ff492c; color:#fff; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:center; }
+  .stars { color:var(--star); font-size:17px; letter-spacing:2px; }
+  .g2txt { font-size:14.5px; font-weight:600; }
+  .g2sub { font-size:13px; color:var(--muted); }
+
+  /* Ticker */
+  .ticker-wrap { display:flex; align-items:center; justify-content:center; gap:14px; min-height:230px; flex-wrap:wrap; margin-top:8px; }
+  .ticker-lead { font-size:26px; font-weight:650; white-space:nowrap; }
+  #ticker { position:relative; height:210px; min-width:430px; }
+  #ticker div { position:absolute; left:0; width:100%; font-size:23px; font-weight:650; transition:transform .55s ease, opacity .55s ease; white-space:nowrap; }
+
+  /* Pricing pills */
+  .pills { display:flex; gap:10px; flex-wrap:wrap; margin:30px 0 18px; justify-content:center; }
+  .pill { padding:10px 20px; border-radius:999px; border:1.5px solid var(--line); background:#fff; font-size:14px; font-weight:600; cursor:pointer; color:var(--muted); transition:all .15s ease; }
+  .pill:hover { border-color:var(--blue); color:var(--blue); }
+  .pill.active { background:var(--blue); border-color:var(--blue); color:#fff; }
+  .panel { display:none; } .panel.active { display:block; animation:fade .25s ease; }
+  @keyframes fade { from { opacity:0; transform:translateY(4px);} to { opacity:1; transform:none;} }
+  table.val { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  table.val th { text-align:left; font-size:13.5px; padding:13px 14px; border-bottom:1px solid var(--line); font-weight:600; }
+  table.val th.u { background:var(--blue-soft); color:var(--blue-ink); }
+  table.val td { font-size:13.5px; padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--muted); }
+  table.val td.lbl { font-weight:600; color:var(--ink); }
+  table.val td.u { background:#f7faff; }
+  table.val tr:last-child td { border-bottom:none; }
+  .vc { font-size:13px; }
+  .note { margin-top:20px; font-size:13.5px; color:var(--muted); background:#fff; border-left:3px solid var(--blue); padding:14px 16px; border-radius:0 10px 10px 0; }
+
+  /* Migration — single seamless card */
+  .mig { background:#fff; border:1px solid var(--line); border-radius:16px; padding:30px 32px; margin-top:26px; }
+  .mig .lede { font-weight:600; font-size:15.5px; }
+  .mig .body { color:var(--muted); font-size:14.5px; margin-top:10px; }
+  .mig .how { font-weight:600; margin:22px 0 14px; }
+  .step { display:flex; gap:14px; padding:13px 0; align-items:flex-start; border-top:1px dashed var(--line); }
+  .step .n { min-width:26px; height:26px; border-radius:50%; background:var(--blue-soft); color:var(--blue-ink); font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:2px; }
+  .step p { font-size:14.5px; color:var(--muted); }
+
+  /* Competitor tiles */
+  .comp-links { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-top:28px; }
+  .comp-link { border:1px solid var(--line); border-radius:12px; padding:22px; background:#fff; font-weight:600; font-size:15px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all .15s ease; }
+  .comp-link:hover { border-color:var(--blue); box-shadow:0 6px 18px rgba(37,99,235,.08); }
+  .comp-link .arr { color:var(--faint); transition:transform .15s ease; }
+  .comp-link:hover .arr { color:var(--blue); transform:translateX(3px); }
+
+  .faq details { border:1px solid var(--line); border-radius:10px; margin-top:10px; background:#fff; }
+  .faq summary { cursor:pointer; padding:13px 16px; font-weight:600; font-size:14.5px; list-style:none; display:flex; justify-content:space-between; gap:12px; }
+  .faq summary::after { content:"+"; color:var(--faint); }
+  .faq details[open] summary::after { content:"–"; }
+  .faq .body { padding:0 16px 14px; color:var(--muted); font-size:14px; }
+  footer { text-align:center; padding:40px; color:var(--faint); font-size:13px; border-top:1px solid var(--line); margin-top:30px; }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="center" style="padding-top:96px;">
+  <div class="wrap">
+    <h1>Uniqode vs. Flowcode</h1>
+    <p class="sub" style="max-width:620px;">Flowcode and Uniqode look alike on day one. As needs grow, Uniqode stands out with more flexibility, stronger capabilities, and better value.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="/signup">Start for free</a>
+      <a class="btn btn-ghost" href="/demo">Book a demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- Logo band (Uniqode site style) -->
+<div class="band">
+  <p>Trusted by 50,000+ growing businesses and teams</p>
+  <div class="marquee">
+    <div class="brands">
+      <span class="brand b-toyota">TOYOTA</span><span class="brand b-amazon">amazon</span><span class="brand b-revlon">REVLON</span><span class="brand b-pepsi">pepsi</span><span class="brand b-hilton">Hilton</span><span class="brand b-marriott">MARRIOTT</span><span class="brand b-wwf">WWF</span><span class="brand b-nestle">Nestl&eacute;</span>
+    </div>
+    <div class="brands" aria-hidden="true">
+      <span class="brand b-toyota">TOYOTA</span><span class="brand b-amazon">amazon</span><span class="brand b-revlon">REVLON</span><span class="brand b-pepsi">pepsi</span><span class="brand b-hilton">Hilton</span><span class="brand b-marriott">MARRIOTT</span><span class="brand b-wwf">WWF</span><span class="brand b-nestle">Nestl&eacute;</span>
+    </div>
+  </div>
+</div>
+
+<!-- Comparison Table -->
+<section>
+  <div class="wrap">
+    <h2 class="center">How does Uniqode compares to Flowcode?</h2>
+    <div class="cmp" id="cmp"></div>
+    <p class="legend"><span class="mk y">✓</span> included &nbsp;·&nbsp; <span class="mk h">◐</span> costs more &nbsp;·&nbsp; <span class="mk n">✕</span> not offered</p>
+  </div>
+</section>
+
+<!-- Customer reviews + G2 bar -->
+<section class="soft">
+  <div class="wrap-wide">
+    <h2 class="center">Why customers switch to Uniqode</h2>
+    <div class="reviews">
+      <div class="review"><p class="quote">"Uniqode has been an essential tool for helping us maintain consistency and flexibility as our franchise system grows. Being able to update destinations without reprinting codes has saved us a lot of time, money, and headaches."</p><div class="who"><div class="avatar">NL</div><div><div class="nm">Nicholas L.</div><div class="rl">Franchise owner</div></div></div></div>
+      <div class="review"><p class="quote">"I appreciate being able to track our marketing efforts and access data about our viewers. This helps us identify which marketing strategies are gaining traction, as well as providing insight into who is engaging with us and when."</p><div class="who"><div class="avatar">MC</div><div><div class="nm">Michelle C.</div><div class="rl">Economic Development Coordinator</div></div></div></div>
+      <div class="review"><p class="quote">"We use Uniqode to keep our projects updated for homeowners, contractors, and sub-trades. They scan the QR code at the jobsite and find all aspects of the project, updated specs for each trade, contact info for all involved."</p><div class="who"><div class="avatar">RM</div><div><div class="nm">Radley M.</div><div class="rl">construction business owner</div></div></div></div>
+    </div>
+    <div class="g2bar">
+      <div class="g2logo">G2</div>
+      <span class="stars">★★★★★</span>
+      <span class="g2txt">4.8/5 on G2</span>
+      <span class="g2sub">500+ reviews</span>
+    </div>
+  </div>
+</section>
+
+<!-- Uniquely Uniqode -->
+<section>
+  <div class="wrap-wide">
+    <h2 class="center">What sets Uniqode apart</h2>
+    <div class="ticker-wrap" style="text-align:left;">
+      <span class="ticker-lead">Teams pick Uniqode for:</span>
+      <div id="ticker" style="text-align:left;"><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Comparison -->
+<section class="soft">
+  <div class="wrap-wide">
+    <h2 class="center">Uniqode vs. Flowcode: compare the costs</h2>
+    <p class="sub center">Uniqode gives you more for your money as your QR campaigns grow. Flowcode's own customers describe the opposite on G2: it costs more each year and lets them do less.</p>
+
+    <div class="pills" id="pricing-pills">
+      <button class="pill active" data-panel="pp1">Small and medium businesses</button>
+      <button class="pill" data-panel="pp2">Growing teams</button>
+      <button class="pill" data-panel="pp3">Enterprise</button>
+    </div>
+
+    <div class="panel active" id="pp1">
+      <table class="val">
+        <tr><th style="width:18%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th>Value comparison</th></tr>
+        <tr><td class="lbl">Dynamic QR Codes</td><td class="u">250 ($49/mo)</td><td>50 ($60/mo)</td><td class="vc">Uniqode offers 5x the QR Codes at a lower monthly price than Flowcode.</td></tr>
+        <tr><td class="lbl">Tracked scans</td><td class="u">1M a year ($49/mo)</td><td>Capped at 6,000 ($60/mo)</td><td class="vc">Uniqode tracks 166x more scans than Flowcode for $11 less a month.</td></tr>
+        <tr><td class="lbl">Google Analytics + Zapier</td><td class="u">Included ($49/mo)</td><td>Not listed</td><td class="vc">Uniqode connects to your existing marketing stack at $49; Flowcode doesn't list these integrations on any self-serve plan.</td></tr>
+        <tr><td class="lbl">Best value plan</td><td class="u">Plus: 500 codes, 2M scans ($99/mo)</td><td>Growth: 150 codes, 10,000 scans ($300/mo)</td><td class="vc">Uniqode's best-value plan gives 3x the codes at a third of Flowcode's price.</td></tr>
+        <tr><td class="lbl">Security</td><td class="u">SOC 2, HIPAA, ISO 27001, MFA, and bot filtering from $9/mo</td><td>SOC 2, HIPAA, and GDPR from $60/mo; MFA and bot filtering on higher tiers</td><td class="vc">Uniqode includes its full security stack from $9 a month; Flowcode splits security features across tiers.</td></tr>
+        <tr><td class="lbl">Customer support</td><td class="u">24/7 live support on all plans</td><td>Live support from $300/mo only</td><td class="vc">Uniqode includes 24/7 live support on every plan; on Flowcode, live support starts at $300 a month.</td></tr>
+      </table>
+    </div>
+
+    <div class="panel" id="pp2">
+      <table class="val">
+        <tr><th style="width:18%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th>Value comparison</th></tr>
+        <tr><td class="lbl">Team plan</td><td class="u">500 codes, roles, bulk ($99/mo)</td><td>150 codes, roles, bulk ($300/mo)</td><td class="vc">Uniqode's team plan covers 3x the QR Codes at a third of Flowcode's price.</td></tr>
+        <tr><td class="lbl">Tracked scans</td><td class="u">2M a year ($99/mo)</td><td>Starts at 10,000 ($300/mo)</td><td class="vc">Uniqode tracks 200x more scans than Flowcode's Growth plan, at $201 less a month.</td></tr>
+        <tr><td class="lbl">Bulk generation</td><td class="u">1,000 per batch ($99/mo)</td><td>1,000 per batch ($300/mo)</td><td class="vc">The same 1,000-code batch costs 3x more to create on Flowcode.</td></tr>
+        <tr><td class="lbl">Security</td><td class="u">Role-based access, MFA, and bot filtering ($99/mo); SSO ($399/mo)</td><td>Custom admin permissions ($300/mo); SSO and enhanced security at Enterprise</td><td class="vc">Uniqode delivers team-grade security at $99; Flowcode reserves most of it for Enterprise.</td></tr>
+        <tr><td class="lbl">Scheduled reports</td><td class="u">Every plan, from $9/mo</td><td>$300/mo</td><td class="vc">Scheduled reports come with every Uniqode plan; Flowcode includes them only from $300 a month.</td></tr>
+        <tr><td class="lbl">GPS scan map</td><td class="u">$49/mo</td><td>$300/mo</td><td class="vc">Location-level scan data costs $49 on Uniqode and $300 on Flowcode.</td></tr>
+        <tr><td class="lbl">Retargeting audiences</td><td class="u">$399/mo, listed</td><td>Quote only</td><td class="vc">Uniqode publishes the price of retargeting; Flowcode requires a sales call to learn it.</td></tr>
+      </table>
+    </div>
+
+    <div class="panel" id="pp3">
+      <table class="val">
+        <tr><th style="width:18%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th>Value comparison</th></tr>
+        <tr><td class="lbl">Dynamic QR Codes</td><td class="u">Custom volume</td><td>Unlimited</td><td class="vc">Both platforms scale to enterprise volume; neither caps you here.</td></tr>
+        <tr><td class="lbl">SSO and white labeling</td><td class="u">SSO from $399/mo; white labeling at Enterprise</td><td>White labeling from $300/mo; SSO at Enterprise</td><td class="vc">Uniqode offers SSO without an enterprise contract; Flowcode offers white labeling earlier.</td></tr>
+        <tr><td class="lbl">Compliance</td><td class="u">SOC 2 Type 2, GDPR, HIPAA, ISO 27001, BAAs</td><td>All certifications at Enterprise</td><td class="vc">Both reach full compliance at the top tier, but Uniqode's certifications apply from $9 a month.</td></tr>
+        <tr><td class="lbl">Analytics</td><td class="u">Custom volume, lifetime data retention</td><td>Unlimited analytics cap</td><td class="vc">Both uncap analytics at Enterprise; Uniqode also keeps your scan data for life.</td></tr>
+        <tr><td class="lbl">Integrations</td><td class="u">GA4, Meta Pixel, Google Ads, Zapier, API with published limits, from $49–399/mo</td><td>Full API, webhooks, S3, FlowcodeTV at Enterprise</td><td class="vc">Most integrations Flowcode reserves for Enterprise are available on Uniqode's standard plans.</td></tr>
+      </table>
+    </div>
+
+    <p class="note">Note: While researching this comparison, we found that Flowcode's information isn't consistent across their site. The pricing page and the help center disagree on what each plan includes, and in places, on what a feature even means. So before signing, confirm anything that matters to you in writing.</p>
+  </div>
+</section>
+
+<!-- Migration -->
+<section>
+  <div class="wrap">
+    <h2 class="center">Switching from Flowcode? Here's how it works.</h2>
+    <div class="mig">
+      <p class="lede">Here's how we helped a national broadcast group with more than 40 local stations migrate from flowcode</p>
+      <p class="body">The group reached out to us before their Flowcode renewal. They ran client campaigns, on-air contests, and app download codes on Flowcode, and the product itself worked. But their account reps kept changing, Flowcode kept pushing an upgrade to Flowcode 2 they didn't need, and the renewal price sent them looking for alternatives.</p>
+      <p class="how">Here's how Uniqode helped them migrate from Flowcode:</p>
+      <div class="step"><div class="n">1</div><p>Start new campaigns on Uniqode in week one. You don't wait for the old contract to end.</p></div>
+      <div class="step"><div class="n">2</div><p>Keep existing QR Codes live with custom domain.</p></div>
+      <div class="step"><div class="n">3</div><p>A dedicated customer success manager handles the move, free. They help set up your account, train your team, and export your full scan history before the old account closes.</p></div>
+      <div class="center" style="margin-top:24px;"><a class="btn btn-primary" href="#">Plan my migration, free</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- Other Competitors -->
+<section class="soft">
+  <div class="wrap-wide center">
+    <h2>See how Uniqode compares to every QR platform</h2>
+    <p class="sub">Weighing more than one option? Here's how Uniqode stacks up against other alternatives.</p>
+    <div class="comp-links">
+      <div class="comp-link">Uniqode vs. Bitly <span class="arr">→</span></div>
+      <div class="comp-link">Uniqode vs. QR TIGER <span class="arr">→</span></div>
+      <div class="comp-link">Uniqode vs. ME-QR <span class="arr">→</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap faq">
+    <h2 class="center">FAQ — Uniqode vs. Flowcode</h2>
+    <div class="pills" id="faq-pills">
+      <button class="pill active" data-panel="fq1">Switching from Flowcode</button>
+      <button class="pill" data-panel="fq2">Uses</button>
+      <button class="pill" data-panel="fq3">Pricing</button>
+      <button class="pill" data-panel="fq4">Capabilities</button>
+    </div>
+
+    <div class="panel active" id="fq1">
+      <details><summary>Can I move my existing Flowcode QR Codes to Uniqode?</summary><div class="body">Yes. You can move your Flowcode QR Codes to Uniqode, if your QR Codes are on your own custom domain. Those move over and keep working as before. QR Codes without a custom domain can't move, so you can continue to run them on Flowcode until your contract ends and build your new campaigns on Uniqode.</div></details>
+      <details><summary>Will I lose my scan history when I switch?</summary><div class="body">No. Your scan history lives in Flowcode until your account closes, so export it as a CSV before you leave and you'll have a permanent copy. Uniqode starts tracking each code fresh from the day it moves over.</div></details>
+      <details><summary>Do I have to reprint anything?</summary><div class="body">You don't need to reprint QR Codes if you used a custom domain for creating QR Codes on Flowcode. Your existing Flowcode QR Codes can be migrated to Uniqode and will keep working everywhere they're already printed: packaging, mailers, TV spots, and more. If you did not use a custom domain, your existing QR Codes will stop working when your Flowcode contract ends. For those campaigns, you'll need to plan new prints if you want to keep them running.</div></details>
+      <details><summary>How long does a migration take?</summary><div class="body">You can start creating QR Codes on Uniqode the same week. Your existing codes move over while your Flowcode term winds down, and a dedicated customer success manager handles the whole thing at no extra cost to you.</div></details>
+      <details><summary>Can I keep the short links my codes already use?</summary><div class="body">Yes. Your QR Code links keep the same web address and path after the move, so a QR Code printed with say, yourbrand.com/spring-promo, works exactly as before.</div></details>
+    </div>
+
+    <div class="panel" id="fq2">
+      <details><summary>Which is better for marketing campaigns, Uniqode or Flowcode?</summary><div class="body">Uniqode is the better choice for marketing campaigns. Scan data is only worth what you can do with it, and Uniqode sends every scan into the analytics and ad stack you already run, so a mailer or billboard gets measured, compared, and retargeted like any other channel. On Flowcode, that capability is gated behind Flowcode 2's Growth and Enterprise tiers, where pricing is usage-based and unlisted. The cost of that jump is the most common complaint in Flowcode's G2 reviews, and it's a frequent reason marketers cite for switching to Uniqode.</div></details>
+      <details><summary>Which is better for restaurant menus, Uniqode or Flowcode?</summary><div class="body">Uniqode is better for restaurant menus. Menus change more often than anything else you print. Uniqode handles this with one code per table using Smart Rules: it shows your breakfast menu in the morning, your dinner menu in the evening, and translates either one into your guest's language. When you change a price, you update it once and every table shows the new menu. You never have to reprint RQ Codes.</div></details>
+      <details><summary>Which is better for product packaging, Uniqode or Flowcode?</summary><div class="body">Uniqode is the best QR Code generator for product packaging. Packaging gets printed months ahead, but with Uniqode, you can change where a printed code points: this season it opens a recipe page, next season a contest, after that a new product launch. The pack on the shelf stays the same; only the QR Code destination changes. You can also create codes for your entire SKU list in one upload using bulk generation. With Uniqode, you can also opt for GS1 QR Codes. Flowcode also lets you redirect printed codes. But bulk creation caps at 50 codes per batch on a Pro Plus plan and only 1,000 on Growth plans which is said to start from $250 a month. A real catalog hits that ceiling fast.</div></details>
+      <details><summary>Which is better for TV commercials and direct response, Uniqode or Flowcode?</summary><div class="body">Uniqode is the better pick for TV and direct response. Agencies running spots need two things at volume: a code for every client and campaign, and scan data they can hand back. Uniqode covers both, with hundreds of codes per batch and per-client reports showing location and device detail, exportable or emailed on a schedule. Flowcode works for this too, but the gap is volume and data: 50 codes at $25, analytics capped at 6,000 scans, and more tracking on Growth, which starts from $250 a month.</div></details>
+      <details><summary>Which is better for event tickets and promotions, Uniqode or Flowcode?</summary><div class="body">Uniqode is the better pick for events and promotions. With Uniqode you can set a start and an end to the QR campaign and you can also track which placement, poster, ticket, or email, actually drove scans. Promo controls like first-come caps and one-redemption-per-phone are there when you need them. Flowcode tracks event scans well. However, it doesn't have the option to set campaign start and end dates making it a manual job.</div></details>
+      <details><summary>Which is better for logo-branded QR Codes, Uniqode or Flowcode?</summary><div class="body">Flowcode is the better pick if you'd rather have the design done for you. Paid plans come with artist-designed code templates, one at $25 and three on Growth, and the enterprise tier has a brand design studio. Uniqode hands you the tools instead. Upload your logo, and auto-design builds the branded code in seconds, with a live scannability score, so you know it'll still scan before anything goes to print. If you want control, that's Uniqode. If you want it handled, that's Flowcode.</div></details>
+      <details><summary>Which is better for one-time print runs, Uniqode or Flowcode?</summary><div class="body">Either works for a one-off. A static code from either platform prints once and scans forever, free. If the destination might change after printing, you need a dynamic code, and Uniqode's start at $9 a month.</div></details>
+    </div>
+
+    <div class="panel" id="fq3">
+      <details><summary>How much do Uniqode and Flowcode cost?</summary><div class="body">Uniqode publishes five plans: $9, $49, $99, and $399 a month, plus Enterprise. Flowcode publishes one price: $25 a month billed annually. Flowcode's Growth and enterprise tiers carry no listed price.</div></details>
+      <details><summary>Is Uniqode cheaper than Flowcode?</summary><div class="body">Yes, when you count what a dollar buys, Uniqode is cost-efficient. Flowcode's $25 plan includes 50 QR Codes and 6,000 tracked scans a year. Uniqode's $49 plan includes 250 QR Codes, 1 million scans, Smart Rules, and Google Analytics. Twice the price, five times the codes, 166 times the scans plus various other capabilities.</div></details>
+      <details><summary>Do Uniqode and Flowcode offer free trials?</summary><div class="body">Uniqode offers a 14-day free trial on paid plans. Flowcode's offers a 7-day free trial.</div></details>
+      <details><summary>Which is better for small businesses on a budget, Uniqode or Flowcode?</summary><div class="body">Flowcode is the cheaper way to start. The free plan gets you two editable codes with no ads, and that genuinely covers a first poster or a single menu. Uniqode is the cheaper way to grow. At $9, you get 15 editable codes and 50,000 tracked scans a year, while Flowcode's first paid step is $25 for 50 codes. Start free on Flowcode if two codes are all you need. If you pkan to grow your QR campaigns, opt for Uniqode.</div></details>
+    </div>
+
+    <div class="panel" id="fq4">
+      <details><summary>What QR Code types do Uniqode and Flowcode generate?</summary><div class="body">Both generate the standard set: website, vCard, Wi-Fi, PDF, app download, and social links. Uniqode adds Smart Rules codes, geolocation redirects, multi-language codes, forms, and Linkpages.</div></details>
+      <details><summary>What export formats do they provide?</summary><div class="body">Uniqode allows you to export QR Codes in various formats like PNG, JPEG, SVG, PDF, and EPS. Flowcode exports PNG, SVG, JPEG, and PDF.</div></details>
+      <details><summary>Do Uniqode and Flowcode support bulk QR generation?</summary><div class="body">Yes, both. Uniqode bulk-creates 250 dynamic codes per batch from $49 and 2,000 at Business+, plus static codes in the thousands on every plan. Flowcode bulk-creates 50 codes at $25 and 1,000 on Growth.</div></details>
+      <details><summary>Do Uniqode and Flowcode integrate with Google Analytics?</summary><div class="body">Uniqode connects to GA4 from the $49 plan, so scans appear beside your web traffic. Flowcode does not have GA4 integration listed.</div></details>
+      <details><summary>Can QR Codes be password protected?</summary><div class="body">Uniqode password-protects any QR Code. Flowcode lists no password protection capability.</div></details>
+    </div>
+  </div>
+</section>
+
+<footer>Uniqode vs. Flowcode — page build, June 12, 2026</footer>
+
+<script>
+(function(){
+  var rows = [
+    ["Dynamic QR Codes","y","250 for $49/mo","h","50 for $25/mo","Uniqode plans include 15, 250, 500, or 2,000 editable codes. Flowcode includes 2 free and 50 at $25. More than that means their $250+ plan, where codes come in tiered packages."],
+    ["Scan tracking","y","1 million a year for $49","h","stops at 6,000","Uniqode tracks 50,000 scans a year at $9, 1 million at $49, and 8 million at $399, and alerts you when scan patterns look wrong. Flowcode tracks 500 scans free and 6,000 at $25."],
+    ["Keep scan history forever","h","on the $399 plan","n","not offered","Uniqode keeps scan data 60 to 180 days on lower plans and forever from $399, so you can compare this year to last year. Flowcode does not say how long it keeps your data."],
+    ["GPS scan locations","y","from $49/mo","h","from $250/mo","See exactly where codes get scanned on a map when scanners allow GPS; city, state, and country otherwise. Flowcode's deeper location data starts from $250 a month."],
+    ["Works with your marketing tools","y","from $49/mo","h","limited at $25/mo","Uniqode connects Google Analytics, Canva, Zapier, Make, and Slack from $49. Flowcode includes CRM connections at $25; sending data to other tools starts from $250 a month."],
+    ["Retarget people who scanned","y","at $399/mo","h","needs Flowcode 2","On the $399 plan, people who scan become audiences in Meta and Google Ads, so a billboard can feed your ad campaigns. On Flowcode this needs Flowcode 2, a separate product priced by usage."],
+    ["Your own domain on codes","y","at $399/mo","y","from $250/mo","Uniqode includes one custom domain at $399, with a paid add-on option at $99; Flowcode includes five from $250 a month. Your own domain is what lets printed codes move between platforms."],
+    ["Scheduled email reports","y","every plan","h","from $250/mo","Uniqode emails weekly and monthly reports with plain-language summaries by Una, its AI, on every plan. Flowcode schedules reports from $250 a month."],
+    ["Control who can edit what","y","from $99/mo","h","from $250/mo","Uniqode adds roles and permissions at $99, and logs every change to every code. Flowcode's admin permissions start from $250 a month."],
+    ["Compliance","y","HIPAA, ISO 27001, SOC 2, GDPR","h","HIPAA, SOC 2, GDPR, no ISO","Both platforms are HIPAA compliant. Uniqode also holds ISO 27001 and signs BAAs with healthcare customers; Flowcode does not hold ISO 27001."],
+    ["Remove platform branding","h","top plans only","y","at $25/mo","Flowcode includes white-labeling at $25, a genuine win at entry. Uniqode removes footer branding at $399 and all branding at Enterprise."],
+    ["Talk to a human","y","chat, email, phone, every plan","h","email and chat","Uniqode offers live chat, email, and phone support on every plan, including the $9 one. Flowcode offers standard email and chat; faster responses start from $250 a month. No phone line is listed."]
+  ];
+  var eyeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var html = '<div class="cmp-head"><div></div><div class="u">Uniqode</div><div class="f">Flowcode</div></div>';
+  rows.forEach(function(r, i){
+    html += '<div class="cmp-block">'
+      + '<div class="cmp-row">'
+      + '<div class="lbl"><span>' + r[0] + '</span><button class="eye" data-row="' + i + '" aria-label="More about ' + r[0] + '" title="More about this row">' + eyeSvg + '</button></div>'
+      + '<div class="u"><span class="mk ' + r[1] + '">' + (r[1]==='y'?'✓':r[1]==='h'?'◐':'✕') + '</span>' + r[2] + '</div>'
+      + '<div class="f"><span class="mk ' + r[3] + '">' + (r[3]==='y'?'✓':r[3]==='h'?'◐':'✕') + '</span>' + r[4] + '</div>'
+      + '</div>'
+      + '<div class="rowdetail" id="rd' + i + '">' + r[5] + '</div>'
+      + '</div>';
+  });
+  document.getElementById('cmp').innerHTML = html;
+  document.querySelectorAll('.eye').forEach(function(b){
+    b.addEventListener('click', function(){
+      var d = document.getElementById('rd' + b.getAttribute('data-row'));
+      var isOpen = d.classList.contains('show');
+      d.classList.toggle('show', !isOpen);
+      b.classList.toggle('open', !isOpen);
+    });
+  });
+
+  var items = ["Smart Rules","Lifetime analytics","Meta Pixel Google Ads retargeting","QR templates","Role based access control","Una AI","Enterprise-grade security","ScanGuard"];
+  var slots = document.querySelectorAll('#ticker div');
+  var idx = 0;
+  function paint(){
+    for (var p = 0; p < 5; p++) {
+      var offset = p - 2;
+      var el = slots[p];
+      el.textContent = items[(idx + offset + items.length * 10) % items.length];
+      el.style.transform = 'translateY(' + (offset * 44 + 82) + 'px)';
+      el.style.opacity = offset === 0 ? '1' : (Math.abs(offset) === 1 ? '0.35' : '0.12');
+    }
+  }
+  paint();
+  setInterval(function(){ idx = (idx + 1) % items.length; paint(); }, 2200);
+
+  function wireTabs(containerId){
+    var c = document.getElementById(containerId);
+    var pills = c.querySelectorAll('.pill');
+    pills.forEach(function(pl){
+      pl.addEventListener('click', function(){
+        pills.forEach(function(x){ x.classList.remove('active'); });
+        pl.classList.add('active');
+        var section = c.parentElement;
+        section.querySelectorAll('.panel').forEach(function(pn){ pn.classList.remove('active'); });
+        document.getElementById(pl.getAttribute('data-panel')).classList.add('active');
+      });
+    });
+  }
+  wireTabs('pricing-pills');
+  wireTabs('faq-pills');
+})();
+</script>
+</body>
+</html>
