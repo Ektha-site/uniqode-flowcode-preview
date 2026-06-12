@@ -87,8 +87,8 @@
   /* Ticker */
   .ticker-wrap { display:flex; align-items:center; justify-content:center; gap:14px; min-height:230px; flex-wrap:wrap; margin-top:8px; }
   .ticker-lead { font-size:26px; font-weight:650; white-space:nowrap; }
-  #ticker { position:relative; height:210px; min-width:520px; max-width:100%; }
-  #ticker div { position:absolute; left:0; width:100%; font-size:23px; font-weight:650; transition:transform .55s ease, opacity .55s ease; white-space:nowrap; }
+  #ticker { position:relative; height:230px; min-width:540px; max-width:100%; overflow:hidden; -webkit-mask-image:linear-gradient(transparent, #000 26%, #000 74%, transparent); mask-image:linear-gradient(transparent, #000 26%, #000 74%, transparent); }
+  #ticker div { position:absolute; left:0; width:100%; font-weight:650; transition:transform .55s ease, opacity .55s ease, font-size .3s ease; white-space:nowrap; line-height:1.25; }
 
   /* Pricing pills */
   .pills { display:flex; gap:10px; flex-wrap:wrap; margin:30px 0 18px; justify-content:center; }
@@ -181,7 +181,7 @@
 <!-- Uniquely Uniqode -->
 <section>
   <div class="wrap-wide">
-    <h2 class="center">What sets Uniqode apart</h2>
+    <h2 class="center" style="margin-bottom:28px;">What sets Uniqode apart</h2>
     <div class="ticker-wrap" style="text-align:left;">
       <span class="ticker-lead">Teams pick Uniqode for:</span>
       <div id="ticker" style="text-align:left;"><div></div><div></div><div></div><div></div><div></div></div>
@@ -428,8 +428,9 @@
       var offset = p - 2;
       var el = slots[p];
       el.textContent = items[(idx + offset + items.length * 10) % items.length];
-      el.style.transform = 'translateY(' + (offset * 44 + 82) + 'px)';
-      el.style.opacity = offset === 0 ? '1' : (Math.abs(offset) === 1 ? '0.35' : '0.12');
+      el.style.fontSize = offset === 0 ? '26px' : '22px';
+      el.style.transform = 'translateY(' + (offset * 46 + 99) + 'px)';
+      el.style.opacity = offset === 0 ? '1' : (Math.abs(offset) === 1 ? '0.32' : '0.1');
     }
   }
   paint();
