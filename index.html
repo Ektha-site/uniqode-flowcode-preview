@@ -121,6 +121,14 @@
   .faq summary::after { content:"+"; color:var(--faint); }
   .faq details[open] summary::after { content:"–"; }
   .faq .body { padding:0 16px 14px; color:var(--muted); font-size:14px; }
+  .cta-strip { background:var(--blue); padding:44px 24px; text-align:center; }
+  .cta-strip.alt { background:var(--blue-soft); }
+  .cta-strip h3 { color:#fff; font-size:22px; font-weight:650; margin-bottom:18px; letter-spacing:-0.2px; }
+  .cta-strip.alt h3 { color:var(--ink); }
+  .cta-strip .btn-white { background:#fff; color:var(--blue); }
+  .cta-strip .btn-line { border:1.5px solid rgba(255,255,255,.55); color:#fff; background:transparent; }
+  .cta-strip.alt .btn-line { border:1.5px solid var(--line); color:var(--ink); background:#fff; }
+  .cta-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
   footer { text-align:center; padding:40px; color:var(--faint); font-size:13px; border-top:1px solid var(--line); margin-top:30px; }
 </style>
 </head>
@@ -159,6 +167,12 @@
     <p class="legend"><span class="mk y">✓</span> included &nbsp;·&nbsp; <span class="mk h">◐</span> costs more &nbsp;·&nbsp; <span class="mk n">✕</span> not offered</p>
   </div>
 </section>
+
+<!-- CTA: after comparison -->
+<div class="cta-strip alt">
+  <h3>See why growing teams choose Uniqode</h3>
+  <div class="cta-row"><a class="btn btn-primary" href="/demo">Book a demo &rarr;</a></div>
+</div>
 
 <!-- Customer reviews + G2 bar -->
 <section class="soft">
@@ -254,6 +268,12 @@
   </div>
 </section>
 
+<!-- CTA: after value comparison -->
+<div class="cta-strip">
+  <h3>Get more value from every QR campaign</h3>
+  <div class="cta-row"><a class="btn btn-white" href="/demo">See Uniqode in action &rarr;</a><a class="btn btn-line" href="/demo">Book a demo</a></div>
+</div>
+
 <!-- Migration -->
 <section>
   <div class="wrap">
@@ -265,7 +285,10 @@
       <div class="step"><div class="n">1</div><p>Start new campaigns on Uniqode in week one. You don't wait for the old contract to end.</p></div>
       <div class="step"><div class="n">2</div><p>Keep existing QR Codes live with custom domain.</p></div>
       <div class="step"><div class="n">3</div><p>A dedicated customer success manager handles the move, free. They help set up your account, train your team, and export your full scan history before the old account closes.</p></div>
-      <div class="center" style="margin-top:24px;"><a class="btn btn-primary" href="#">Plan my migration, free</a></div>
+    </div>
+    <div class="center" style="margin-top:28px;">
+      <p style="font-size:20px; font-weight:650; margin-bottom:16px;">Switching is easier than you think</p>
+      <div class="cta-row"><a class="btn btn-primary" href="/demo">Book a demo</a><a class="btn btn-ghost" href="#">Plan my migration, free</a></div>
     </div>
   </div>
 </section>
@@ -328,6 +351,11 @@
     </div>
   </div>
 </section>
+
+<div class="cta-strip">
+  <h3>See what your QR program could look like with Uniqode</h3>
+  <div class="cta-row"><a class="btn btn-white" href="/demo">Book a demo &rarr;</a></div>
+</div>
 
 <footer>Uniqode vs. Flowcode — page build, June 12, 2026</footer>
 
