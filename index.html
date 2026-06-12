@@ -61,13 +61,7 @@
   .rowdetail { display:none; padding:4px 16px 14px; font-size:13.5px; color:var(--muted); background:#fbfcfe; }
   .rowdetail.show { display:block; }
   .legend { text-align:center; font-size:12.5px; color:var(--faint); margin-top:12px; }
-  .cell-win { background:#e8f6ef !important; }
-  .cell-win b { color:#0b7a52; }
   .cmp-row b, table.val b { font-weight:700; color:var(--ink); }
-  .row-hot { box-shadow:inset 3px 0 0 var(--good); }
-  .hot-tag { font-size:10.5px; font-weight:700; color:#0b7a52; background:#e8f6ef; padding:2px 8px; border-radius:999px; margin-left:8px; white-space:nowrap; }
-  table.val td.win { background:#e8f6ef; }
-  table.val td.win b { color:#0b7a52; }
 
   /* Reviews + G2 bar */
   .reviews { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; margin-top:28px; }
@@ -83,11 +77,11 @@
   .stars { color:var(--star); font-size:17px; letter-spacing:2px; }
   .g2txt { font-size:14.5px; font-weight:600; }
   .g2sub { font-size:13px; color:var(--muted); }
-  .g2badges { display:flex; gap:18px; justify-content:center; align-items:flex-end; flex-wrap:wrap; }
-  .g2badge { width:92px; border:1px solid var(--line); border-radius:8px 8px 14px 14px; overflow:hidden; background:#fff; text-align:center; box-shadow:0 2px 8px rgba(22,33,47,.05); }
-  .g2badge .top { background:#ff492c; color:#fff; font-weight:800; font-size:13px; padding:5px 0; }
-  .g2badge .lbl2 { font-size:10.5px; font-weight:700; color:var(--ink); padding:8px 6px 2px; line-height:1.3; text-transform:uppercase; letter-spacing:.04em; }
-  .g2badge .ssn { font-size:9.5px; color:var(--muted); padding-bottom:8px; }
+  .g2badges { display:flex; gap:16px; justify-content:center; align-items:stretch; flex-wrap:wrap; }
+  .g2badge { width:104px; height:104px; border:1px solid var(--line); border-radius:8px 8px 14px 14px; overflow:hidden; background:#fff; text-align:center; box-shadow:0 2px 8px rgba(22,33,47,.05); display:flex; flex-direction:column; }
+  .g2badge .top { background:#ff492c; color:#fff; font-weight:800; font-size:13px; padding:6px 0; flex-shrink:0; }
+  .g2badge .lbl2 { font-size:10.5px; font-weight:700; color:var(--ink); padding:0 6px; line-height:1.3; text-transform:uppercase; letter-spacing:.04em; flex:1; display:flex; align-items:center; justify-content:center; }
+  .g2badge .ssn { font-size:9.5px; color:var(--muted); padding-bottom:9px; flex-shrink:0; }
 
   /* Ticker */
   .ticker-wrap { display:flex; align-items:center; justify-content:center; gap:14px; min-height:230px; flex-wrap:wrap; margin-top:8px; }
@@ -133,6 +127,19 @@
   .faq summary::after { content:"+"; color:var(--faint); }
   .faq details[open] summary::after { content:"–"; }
   .faq .body { padding:0 16px 14px; color:var(--muted); font-size:14px; }
+  .duel { margin-top:44px; }
+  .duel-title { text-align:center; font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); }
+  .duel-verdict { text-align:center; font-size:20px; font-weight:650; margin:6px 0 18px; letter-spacing:-0.2px; }
+  .duel-cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:720px; margin:0 auto; }
+  @media (max-width:640px){ .duel-cards { grid-template-columns:1fr; } }
+  .plan-card { background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px 24px; }
+  .plan-card.u-card { border:2px solid var(--blue); }
+  .plan-name { font-size:14px; font-weight:700; }
+  .plan-price { font-size:30px; font-weight:700; margin:4px 0 12px; }
+  .plan-price span { font-size:14px; font-weight:500; color:var(--muted); }
+  .plan-card ul { list-style:none; }
+  .plan-card li { font-size:14px; color:var(--muted); padding:7px 0; border-top:1px dashed var(--line); }
+  .plan-card li b { color:var(--ink); }
   .callout-big { text-align:center; margin-top:34px; }
   .callout-big .big { font-size:30px; font-weight:700; letter-spacing:-0.4px; color:var(--ink); }
   .callout-big .small { font-size:15px; color:var(--muted); margin-top:6px; }
@@ -232,74 +239,85 @@
     <h2 class="center">Uniqode vs. Flowcode: compare the costs</h2>
     <p class="sub center">Uniqode gives you more for your money as your QR campaigns grow. Flowcode's own customers describe the opposite on G2: it costs more each year and lets them do less.</p>
 
-    <div class="callout-big">
-      <p class="big">166x more scans. $11 less per month.</p>
-      <p class="small">That's the difference between Uniqode's and Flowcode's entry-level plans.</p>
-    </div>
-    <table class="val" style="max-width:600px; margin:26px auto 0;">
-      <tr><th style="width:36%;"></th><th class="u">Uniqode</th><th>Flowcode</th></tr>
-      <tr><td class="lbl">Monthly price</td><td class="win"><b>$49</b></td><td>$60</td></tr>
-      <tr><td class="lbl">QR Codes</td><td class="win"><b>250</b></td><td>50</td></tr>
-      <tr><td class="lbl">Cost per QR Code</td><td class="win"><b>$0.20</b></td><td><b>$1.20</b></td></tr>
-      <tr><td class="lbl">Scan allowance</td><td class="win"><b>1M</b> a year</td><td>6K</td></tr>
-      <tr><td class="lbl">Live support</td><td class="win"><span class="mk y">✓</span><b>Included</b></td><td>Upgrade required</td></tr>
-      <tr><td class="lbl">GA4</td><td class="win"><span class="mk y">✓</span><b>Included</b></td><td>— Not listed</td></tr>
-    </table>
-
-    <h3 class="center" style="font-size:19px; font-weight:650; margin-top:46px;">Compare by category</h3>
-    <div class="pills" id="cat-pills" style="margin-top:16px;">
-      <button class="pill active" data-panel="cat1">Value</button>
-      <button class="pill" data-panel="cat2">Analytics</button>
-      <button class="pill" data-panel="cat3">Security</button>
-      <button class="pill" data-panel="cat4">Customization</button>
-      <button class="pill" data-panel="cat5">Support</button>
-    </div>
-
-    <div class="panel active" id="cat1">
-      <table class="val">
-        <tr><th style="width:18%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th>Value comparison</th></tr>
-        <tr><td class="lbl">Dynamic QR Codes</td><td class="win"><b>250</b> ($49/mo)</td><td>50 ($60/mo)</td><td class="vc">Uniqode offers 5x the QR Codes at a lower monthly price than Flowcode.</td></tr>
-        <tr><td class="lbl">Tracked scans</td><td class="win"><b>1M</b> a year ($49/mo)</td><td>Capped at 6,000 ($60/mo)</td><td class="vc">Uniqode tracks 166x more scans than Flowcode for $11 less a month.</td></tr>
-        <tr><td class="lbl">Best value plan</td><td class="win">Plus: <b>500</b> codes, <b>2M</b> scans ($99/mo)</td><td>Growth: 150 codes, 10,000 scans ($300/mo)</td><td class="vc">Uniqode's best-value plan gives 3x the codes at a third of Flowcode's price.</td></tr>
-        <tr><td class="lbl">Bulk generation</td><td class="win"><b>1,000</b> per batch ($99/mo)</td><td>1,000 per batch ($300/mo)</td><td class="vc">The same 1,000-code batch costs 3x more to create on Flowcode.</td></tr>
-      </table>
+    <div class="duel">
+      <p class="duel-title">Entry plans</p>
+      <p class="duel-verdict">166x more scans. $11 less per month.</p>
+      <div class="duel-cards">
+        <div class="plan-card u-card">
+          <p class="plan-name">Uniqode Core</p>
+          <p class="plan-price">$49<span>/mo</span></p>
+          <ul>
+            <li><b>250</b> dynamic QR Codes</li>
+            <li><b>1M</b> tracked scans a year</li>
+            <li>GA4 + Zapier included</li>
+            <li>24/7 live support</li>
+          </ul>
+        </div>
+        <div class="plan-card">
+          <p class="plan-name">Flowcode Pro Plus</p>
+          <p class="plan-price">$60<span>/mo</span></p>
+          <ul>
+            <li>50 dynamic QR Codes</li>
+            <li>6,000 tracked scans</li>
+            <li>GA4 + Zapier not listed</li>
+            <li>Live support on higher tiers</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <div class="panel" id="cat2">
-      <table class="val">
-        <tr><th style="width:18%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th>Value comparison</th></tr>
-        <tr><td class="lbl">GPS scan map</td><td class="win"><b>$49</b>/mo</td><td>$300/mo</td><td class="vc">Location-level scan data costs $49 on Uniqode and $300 on Flowcode.</td></tr>
-        <tr><td class="lbl">Google Analytics + Zapier</td><td class="win"><span class="mk y">✓</span><b>Included</b> ($49/mo)</td><td>— Not listed</td><td class="vc">Uniqode connects to your existing marketing stack at $49; Flowcode doesn't list these integrations on any self-serve plan.</td></tr>
-        <tr><td class="lbl">Scheduled reports</td><td class="win">Every plan, from <b>$9</b>/mo</td><td>$300/mo</td><td class="vc">Scheduled reports come with every Uniqode plan; Flowcode includes them only from $300 a month.</td></tr>
-        <tr><td class="lbl">Retargeting audiences</td><td class="win"><b>$399</b>/mo, listed</td><td>Quote only</td><td class="vc">Uniqode publishes the price of retargeting; Flowcode requires a sales call to learn it.</td></tr>
-        <tr><td class="lbl">Lifetime data</td><td class="win">Custom volume, <b>lifetime</b> data retention</td><td>Unlimited analytics cap</td><td class="vc">Both uncap analytics at Enterprise; Uniqode also keeps your scan data for life.</td></tr>
-      </table>
+    <div class="duel">
+      <p class="duel-title">Growth plans</p>
+      <p class="duel-verdict">3x the QR Codes at a third of the price.</p>
+      <div class="duel-cards">
+        <div class="plan-card u-card">
+          <p class="plan-name">Uniqode Plus</p>
+          <p class="plan-price">$99<span>/mo</span></p>
+          <ul>
+            <li><b>500</b> dynamic QR Codes</li>
+            <li><b>2M</b> tracked scans a year</li>
+            <li>Role-based access control</li>
+            <li>Scheduled reports included</li>
+          </ul>
+        </div>
+        <div class="plan-card">
+          <p class="plan-name">Flowcode Growth</p>
+          <p class="plan-price">$300<span>/mo</span></p>
+          <ul>
+            <li>150 dynamic QR Codes</li>
+            <li>10,000 tracked scans</li>
+            <li>Custom admin permissions</li>
+            <li>Scheduled reports included</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <div class="panel" id="cat3">
-      <table class="val">
-        <tr><th style="width:18%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th>Value comparison</th></tr>
-        <tr><td class="lbl">Security stack</td><td class="win">SOC 2, HIPAA, ISO 27001, MFA, and bot filtering from <b>$9</b>/mo</td><td>SOC 2, HIPAA, and GDPR from $60/mo; MFA and bot filtering on higher tiers</td><td class="vc">Uniqode includes its full security stack from $9 a month; Flowcode splits security features across tiers.</td></tr>
-        <tr><td class="lbl">Team security</td><td class="win">Role-based access, MFA, and bot filtering (<b>$99</b>/mo); SSO ($399/mo)</td><td>Custom admin permissions ($300/mo); SSO and enhanced security at Enterprise</td><td class="vc">Uniqode delivers team-grade security at $99; Flowcode reserves most of it for Enterprise.</td></tr>
-        <tr><td class="lbl">Compliance</td><td class="win">SOC 2 Type 2, GDPR, HIPAA, <b>ISO 27001</b>, BAAs</td><td>All certifications at Enterprise</td><td class="vc">Both reach full compliance at the top tier, but Uniqode's certifications apply from $9 a month.</td></tr>
-      </table>
-    </div>
-
-    <div class="panel" id="cat4">
-      <table class="val">
-        <tr><th style="width:18%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th>Value comparison</th></tr>
-        <tr><td class="lbl">Logo-branded codes</td><td class="win">Auto-design with a <b>live scannability score</b></td><td>Artist templates: 1 at $25, 3 on Growth</td><td class="vc">Uniqode hands you the design tools; Flowcode hands you templates, with a design studio at Enterprise.</td></tr>
-        <tr><td class="lbl">Custom domain</td><td class="u">1 at <b>$399</b>/mo; add-on at $99</td><td>5 from $250/mo</td><td class="vc">Your own domain is what lets printed codes move between platforms.</td></tr>
-        <tr><td class="lbl">Remove platform branding</td><td class="u">Top plans only</td><td class="win"><span class="mk y">✓</span>At <b>$25</b>/mo</td><td class="vc">White-labeling comes earlier on Flowcode, a genuine win at entry.</td></tr>
-      </table>
-    </div>
-
-    <div class="panel" id="cat5">
-      <table class="val">
-        <tr><th style="width:18%;"></th><th class="u">Uniqode</th><th>Flowcode</th><th>Value comparison</th></tr>
-        <tr><td class="lbl">Live support</td><td class="win"><span class="mk y">✓</span><b>24/7</b> live support on all plans</td><td>Upgrade required: $300/mo</td><td class="vc">Uniqode includes 24/7 live support on every plan; on Flowcode, live support starts at $300 a month.</td></tr>
-        <tr><td class="lbl">Support channels</td><td class="win">Chat, email, and <b>phone</b>, every plan</td><td>Email and chat, standard</td><td class="vc">Uniqode answers on three channels from the $9 plan; Flowcode lists no phone support.</td></tr>
-      </table>
+    <div class="duel">
+      <p class="duel-title">Enterprise plans</p>
+      <p class="duel-verdict">Most integrations Flowcode reserves for Enterprise are on Uniqode's standard plans.</p>
+      <div class="duel-cards">
+        <div class="plan-card u-card">
+          <p class="plan-name">Uniqode Enterprise</p>
+          <p class="plan-price">Custom</p>
+          <ul>
+            <li>Custom QR Code volume</li>
+            <li><b>Lifetime</b> data retention</li>
+            <li>SOC 2 Type 2, GDPR, HIPAA, ISO 27001, BAAs</li>
+            <li>SSO from $399/mo</li>
+          </ul>
+        </div>
+        <div class="plan-card">
+          <p class="plan-name">Flowcode Enterprise</p>
+          <p class="plan-price">Custom</p>
+          <ul>
+            <li>Unlimited QR Codes</li>
+            <li>Analytics uncapped</li>
+            <li>All certifications at Enterprise</li>
+            <li>White labeling from $300/mo</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <p class="note">Note: While researching this comparison, we found that Flowcode's information isn't consistent across their site. The pricing page and the help center disagree on what each plan includes, and in places, on what a feature even means. So before signing, confirm anything that matters to you in writing.</p>
@@ -424,20 +442,14 @@
     ["Talk to a human","y","chat, email, phone, every plan","h","email and chat","Uniqode offers live chat, email, and phone support on every plan, including the $9 one. Flowcode offers standard email and chat; faster responses start from $250 a month. No phone line is listed."]
   ];
   var eyeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
-  var winners = ["u","u","u","u","u","u","both","u","u","u","f","u"];
-  var hot = {0:"Top difference", 1:"Top difference"};
   function emph(t){ return t.replace(/(\$?\d[\d,]*(?:\.\d+)?(?:M|K)?)/g, '<b>$1</b>'); }
   var html = '<div class="cmp-head"><div></div><div class="u">Uniqode</div><div class="f">Flowcode</div></div>';
   rows.forEach(function(r, i){
-    var w = winners[i];
-    var uCls = 'u' + (w==='u' ? ' cell-win' : '');
-    var fCls = 'f' + (w==='f' ? ' cell-win' : '');
-    var tag = hot[i] ? '<span class="hot-tag">' + hot[i] + '</span>' : '';
-    html += '<div class="cmp-block' + (hot[i] ? ' row-hot' : '') + '">'
+    html += '<div class="cmp-block">'
       + '<div class="cmp-row">'
-      + '<div class="lbl"><span>' + r[0] + tag + '</span><button class="eye" data-row="' + i + '" aria-label="More about ' + r[0] + '" title="More about this row">' + eyeSvg + '</button></div>'
-      + '<div class="' + uCls + '"><span class="mk ' + r[1] + '">' + (r[1]==='y'?'✓':r[1]==='h'?'◐':'✕') + '</span>' + emph(r[2]) + '</div>'
-      + '<div class="' + fCls + '"><span class="mk ' + r[3] + '">' + (r[3]==='y'?'✓':r[3]==='h'?'◐':'✕') + '</span>' + emph(r[4]) + '</div>'
+      + '<div class="lbl"><span>' + r[0] + '</span><button class="eye" data-row="' + i + '" aria-label="More about ' + r[0] + '" title="More about this row">' + eyeSvg + '</button></div>'
+      + '<div class="u"><span class="mk ' + r[1] + '">' + (r[1]==='y'?'✓':r[1]==='h'?'◐':'✕') + '</span>' + emph(r[2]) + '</div>'
+      + '<div class="f"><span class="mk ' + r[3] + '">' + (r[3]==='y'?'✓':r[3]==='h'?'◐':'✕') + '</span>' + emph(r[4]) + '</div>'
       + '</div>'
       + '<div class="rowdetail" id="rd' + i + '">' + r[5] + '</div>'
       + '</div>';
@@ -481,7 +493,6 @@
       });
     });
   }
-  wireTabs('cat-pills');
   wireTabs('faq-pills');
 })();
 </script>
