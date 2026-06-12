@@ -83,6 +83,11 @@
   .stars { color:var(--star); font-size:17px; letter-spacing:2px; }
   .g2txt { font-size:14.5px; font-weight:600; }
   .g2sub { font-size:13px; color:var(--muted); }
+  .g2badges { display:flex; gap:18px; justify-content:center; align-items:flex-end; flex-wrap:wrap; }
+  .g2badge { width:92px; border:1px solid var(--line); border-radius:8px 8px 14px 14px; overflow:hidden; background:#fff; text-align:center; box-shadow:0 2px 8px rgba(22,33,47,.05); }
+  .g2badge .top { background:#ff492c; color:#fff; font-weight:800; font-size:13px; padding:5px 0; }
+  .g2badge .lbl2 { font-size:10.5px; font-weight:700; color:var(--ink); padding:8px 6px 2px; line-height:1.3; text-transform:uppercase; letter-spacing:.04em; }
+  .g2badge .ssn { font-size:9.5px; color:var(--muted); padding-bottom:8px; }
 
   /* Ticker */
   .ticker-wrap { display:flex; align-items:center; justify-content:center; gap:14px; min-height:230px; flex-wrap:wrap; margin-top:8px; }
@@ -204,11 +209,19 @@
       <div class="review"><p class="quote">"I appreciate being able to track our marketing efforts and access data about our viewers. This helps us identify which marketing strategies are gaining traction, as well as providing insight into who is engaging with us and when."</p><div class="who"><div class="avatar">MC</div><div><div class="nm">Michelle C.</div><div class="rl">Economic Development Coordinator</div></div></div></div>
       <div class="review"><p class="quote">"We use Uniqode to keep our projects updated for homeowners, contractors, and sub-trades. They scan the QR code at the jobsite and find all aspects of the project, updated specs for each trade, contact info for all involved."</p><div class="who"><div class="avatar">RM</div><div><div class="nm">Radley M.</div><div class="rl">construction business owner</div></div></div></div>
     </div>
-    <div class="g2bar">
-      <div class="g2logo">G2</div>
-      <span class="stars">★★★★★</span>
-      <span class="g2txt">4.8/5 on G2</span>
-      <span class="g2sub">500+ reviews</span>
+    <div class="g2bar" style="flex-direction:column; gap:18px; padding:24px 22px;">
+      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:center;">
+        <div class="g2logo">G2</div>
+        <span class="stars">★★★★★</span>
+        <span class="g2txt">4.8/5 on G2</span>
+        <span class="g2sub">500+ reviews</span>
+      </div>
+      <div class="g2badges">
+        <div class="g2badge"><div class="top">G2</div><div class="lbl2">Leader</div><div class="ssn">Spring 2026</div></div>
+        <div class="g2badge"><div class="top">G2</div><div class="lbl2">Momentum Leader</div><div class="ssn">Spring 2026</div></div>
+        <div class="g2badge"><div class="top">G2</div><div class="lbl2">Users Love Us</div><div class="ssn">&nbsp;</div></div>
+        <div class="g2badge"><div class="top">G2</div><div class="lbl2">Easiest To Use</div><div class="ssn">Spring 2026</div></div>
+      </div>
     </div>
   </div>
 </section>
