@@ -61,6 +61,13 @@
   .rowdetail { display:none; padding:4px 16px 14px; font-size:13.5px; color:var(--muted); background:#fbfcfe; }
   .rowdetail.show { display:block; }
   .legend { text-align:center; font-size:12.5px; color:var(--faint); margin-top:12px; }
+  .cell-win { background:#e8f6ef !important; }
+  .cell-win b { color:#0b7a52; }
+  .cmp-row b, table.val b { font-weight:700; color:var(--ink); }
+  .row-hot { box-shadow:inset 3px 0 0 var(--good); }
+  .hot-tag { font-size:10.5px; font-weight:700; color:#0b7a52; background:#e8f6ef; padding:2px 8px; border-radius:999px; margin-left:8px; white-space:nowrap; }
+  table.val td.win { background:#e8f6ef; }
+  table.val td.win b { color:#0b7a52; }
 
   /* Reviews + G2 bar */
   .reviews { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; margin-top:28px; }
@@ -218,12 +225,12 @@
     </div>
     <table class="val" style="max-width:600px; margin:26px auto 0;">
       <tr><th style="width:36%;"></th><th class="u">Uniqode</th><th>Flowcode</th></tr>
-      <tr><td class="lbl">Monthly price</td><td class="u">$49</td><td>$60</td></tr>
-      <tr><td class="lbl">QR Codes</td><td class="u">250</td><td>50</td></tr>
-      <tr><td class="lbl">Cost per QR Code</td><td class="u">$0.20</td><td>$1.20</td></tr>
-      <tr><td class="lbl">Scan allowance</td><td class="u">1M a year</td><td>6K</td></tr>
-      <tr><td class="lbl">Live support</td><td class="u"><span class="mk y">✓</span>Included</td><td>Upgrade required</td></tr>
-      <tr><td class="lbl">GA4</td><td class="u"><span class="mk y">✓</span>Included</td><td>— Not listed</td></tr>
+      <tr><td class="lbl">Monthly price</td><td class="win"><b>$49</b></td><td>$60</td></tr>
+      <tr><td class="lbl">QR Codes</td><td class="win"><b>250</b></td><td>50</td></tr>
+      <tr><td class="lbl">Cost per QR Code</td><td class="win"><b>$0.20</b></td><td><b>$1.20</b></td></tr>
+      <tr><td class="lbl">Scan allowance</td><td class="win"><b>1M</b> a year</td><td>6K</td></tr>
+      <tr><td class="lbl">Live support</td><td class="win"><span class="mk y">✓</span><b>Included</b></td><td>Upgrade required</td></tr>
+      <tr><td class="lbl">GA4</td><td class="win"><span class="mk y">✓</span><b>Included</b></td><td>— Not listed</td></tr>
     </table>
     <div class="center" style="margin-top:22px;">
       <button class="btn btn-ghost" id="fullcmp-btn">See full comparison</button>
@@ -385,13 +392,20 @@
     ["Talk to a human","y","chat, email, phone, every plan","h","email and chat","Uniqode offers live chat, email, and phone support on every plan, including the $9 one. Flowcode offers standard email and chat; faster responses start from $250 a month. No phone line is listed."]
   ];
   var eyeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var winners = ["u","u","u","u","u","u","both","u","u","u","f","u"];
+  var hot = {0:"Top difference", 1:"Top difference"};
+  function emph(t){ return t.replace(/(\$?\d[\d,]*(?:\.\d+)?(?:M|K)?)/g, '<b>$1</b>'); }
   var html = '<div class="cmp-head"><div></div><div class="u">Uniqode</div><div class="f">Flowcode</div></div>';
   rows.forEach(function(r, i){
-    html += '<div class="cmp-block">'
+    var w = winners[i];
+    var uCls = 'u' + (w==='u' ? ' cell-win' : '');
+    var fCls = 'f' + (w==='f' ? ' cell-win' : '');
+    var tag = hot[i] ? '<span class="hot-tag">' + hot[i] + '</span>' : '';
+    html += '<div class="cmp-block' + (hot[i] ? ' row-hot' : '') + '">'
       + '<div class="cmp-row">'
-      + '<div class="lbl"><span>' + r[0] + '</span><button class="eye" data-row="' + i + '" aria-label="More about ' + r[0] + '" title="More about this row">' + eyeSvg + '</button></div>'
-      + '<div class="u"><span class="mk ' + r[1] + '">' + (r[1]==='y'?'✓':r[1]==='h'?'◐':'✕') + '</span>' + r[2] + '</div>'
-      + '<div class="f"><span class="mk ' + r[3] + '">' + (r[3]==='y'?'✓':r[3]==='h'?'◐':'✕') + '</span>' + r[4] + '</div>'
+      + '<div class="lbl"><span>' + r[0] + tag + '</span><button class="eye" data-row="' + i + '" aria-label="More about ' + r[0] + '" title="More about this row">' + eyeSvg + '</button></div>'
+      + '<div class="' + uCls + '"><span class="mk ' + r[1] + '">' + (r[1]==='y'?'✓':r[1]==='h'?'◐':'✕') + '</span>' + emph(r[2]) + '</div>'
+      + '<div class="' + fCls + '"><span class="mk ' + r[3] + '">' + (r[3]==='y'?'✓':r[3]==='h'?'◐':'✕') + '</span>' + emph(r[4]) + '</div>'
       + '</div>'
       + '<div class="rowdetail" id="rd' + i + '">' + r[5] + '</div>'
       + '</div>';
