@@ -77,11 +77,8 @@
   .stars { color:var(--star); font-size:17px; letter-spacing:2px; }
   .g2txt { font-size:14.5px; font-weight:600; }
   .g2sub { font-size:13px; color:var(--muted); }
-  .g2badges { display:flex; gap:16px; justify-content:center; align-items:stretch; flex-wrap:wrap; }
-  .g2badge { width:104px; height:104px; border:1px solid var(--line); border-radius:8px 8px 14px 14px; overflow:hidden; background:#fff; text-align:center; box-shadow:0 2px 8px rgba(22,33,47,.05); display:flex; flex-direction:column; }
-  .g2badge .top { background:#ff492c; color:#fff; font-weight:800; font-size:13px; padding:6px 0; flex-shrink:0; }
-  .g2badge .lbl2 { font-size:10.5px; font-weight:700; color:var(--ink); padding:0 6px; line-height:1.3; text-transform:uppercase; letter-spacing:.04em; flex:1; display:flex; align-items:center; justify-content:center; }
-  .g2badge .ssn { font-size:9.5px; color:var(--muted); padding-bottom:9px; flex-shrink:0; }
+  .g2badges { display:flex; gap:22px; justify-content:center; align-items:center; flex-wrap:wrap; }
+  .g2img { height:104px; width:auto; display:block; }
 
   /* Ticker */
   .ticker-wrap { display:flex; align-items:center; justify-content:center; gap:14px; min-height:230px; flex-wrap:wrap; margin-top:8px; }
@@ -227,10 +224,10 @@
         <span class="g2sub">500+ reviews</span>
       </div>
       <div class="g2badges">
-        <div class="g2badge"><div class="top">G2</div><div class="lbl2">Leader</div><div class="ssn">Spring 2026</div></div>
-        <div class="g2badge"><div class="top">G2</div><div class="lbl2">Momentum Leader</div><div class="ssn">Spring 2026</div></div>
-        <div class="g2badge"><div class="top">G2</div><div class="lbl2">Users Love Us</div><div class="ssn">&nbsp;</div></div>
-        <div class="g2badge"><div class="top">G2</div><div class="lbl2">Easiest To Use</div><div class="ssn">Spring 2026</div></div>
+        <img class="g2img" src="badges/leader.png" alt="G2 Leader, QR Code Generator, Summer 2026" loading="lazy">
+        <img class="g2img" src="badges/roi.png" alt="G2 Best Estimated ROI, Location-Based Marketing, Summer 2026" loading="lazy">
+        <img class="g2img" src="badges/implementation.png" alt="G2 Fastest Implementation, Location-Based Marketing, Summer 2026" loading="lazy">
+        <img class="g2img" src="badges/momentum.png" alt="G2 Momentum Leader, SmartLink, Summer 2026" loading="lazy">
       </div>
     </div>
   </div>
