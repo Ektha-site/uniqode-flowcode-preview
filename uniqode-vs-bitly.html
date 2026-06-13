@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uniqode vs. Bitly</title>
+<style>
+  :root { --blue:#2563eb; --blue-soft:#eef4ff; --blue-ink:#1d4ed8; --ink:#16212f; --muted:#5e6980; --faint:#98a1b3; --line:#e6e8ee; --bg:#fff; --soft:#f6f8fb; --dark:#0b0c0f; --good:#0f8a5f; --warn:#c07c1a; --bad:#c23434; --star:#f59e0b; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.65; }
+  section { padding:80px 24px; }
+  .wrap { max-width:760px; margin:0 auto; }
+  .wrap-wide { max-width:920px; margin:0 auto; }
+  h1 { font-size:46px; font-weight:700; letter-spacing:-0.5px; }
+  h2 { font-size:28px; font-weight:650; letter-spacing:-0.3px; }
+  .center { text-align:center; }
+  .sub { color:var(--muted); font-size:17px; max-width:720px; margin:16px auto 0; }
+  .ctas { margin-top:30px; display:flex; gap:12px; justify-content:center; }
+  .btn { display:inline-block; padding:13px 28px; border-radius:8px; font-size:15px; font-weight:600; text-decoration:none; cursor:pointer; border:none; transition:transform .15s ease, box-shadow .15s ease; }
+  .btn:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(37,99,235,.18); }
+  .btn-primary { background:var(--blue); color:#fff; }
+  .btn-ghost { border:1.5px solid var(--line); color:var(--ink); background:#fff; }
+  .soft { background:var(--soft); }
+
+  /* Logo band — Uniqode site style */
+  .band { background:var(--dark); padding:54px 0; overflow:hidden; }
+  .band p { color:#fff; text-align:center; font-size:17px; margin-bottom:34px; }
+  .band .heart { color:#f9a8d4; }
+  .marquee { display:flex; width:max-content; animation:scroll 28s linear infinite; }
+  .marquee:hover { animation-play-state:paused; }
+  .brands { display:flex; align-items:center; gap:72px; padding-right:72px; }
+  .brand { color:#fff; opacity:.92; white-space:nowrap; }
+  .b-toyota { font-weight:700; letter-spacing:.18em; font-size:20px; }
+  .b-amazon { font-weight:700; font-size:26px; text-transform:lowercase; }
+  .b-revlon { font-family:Georgia,serif; letter-spacing:.3em; font-size:22px; }
+  .b-pepsi { font-weight:600; font-size:25px; text-transform:lowercase; }
+  .b-hilton { font-family:Georgia,'Times New Roman',serif; font-size:27px; }
+  .b-marriott { font-weight:600; letter-spacing:.22em; font-size:17px; }
+  .b-wwf { font-weight:800; font-size:24px; }
+  .b-nestle { font-family:Georgia,serif; font-size:23px; font-style:italic; }
+  @keyframes scroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+  /* Comparison — compact rows, eye-icon reveal */
+  .cmp { background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-top:28px; }
+  .cmp-head, .cmp-row { display:grid; grid-template-columns:32% 36% 32%; }
+  .cmp-head div { padding:14px 16px; font-weight:600; font-size:14.5px; }
+  .cmp-head .u { background:var(--blue-soft); color:var(--blue-ink); border-left:1px solid var(--line); }
+  .cmp-head .f { border-left:1px solid var(--line); }
+  .cmp-block { border-top:1px solid var(--line); }
+  .cmp-row > div { padding:13px 16px; font-size:13.5px; color:var(--muted); }
+  .cmp-row .lbl { font-weight:600; color:var(--ink); display:flex; align-items:flex-start; gap:8px; justify-content:space-between; }
+  .cmp-row .u { background:#f7faff; border-left:1px solid var(--line); }
+  .cmp-row .f { border-left:1px solid var(--line); }
+  .mk { font-weight:700; margin-right:5px; }
+  .mk.y { color:var(--good); } .mk.h { color:var(--warn); } .mk.n { color:var(--bad); }
+  .eye { background:none; border:none; cursor:pointer; padding:2px; color:var(--faint); flex-shrink:0; border-radius:6px; transition:color .15s ease, background .15s ease; line-height:0; }
+  .eye:hover { color:var(--blue); background:var(--blue-soft); }
+  .eye.open { color:var(--blue); }
+  .eye svg { width:16px; height:16px; }
+  .rowdetail { display:none; padding:4px 16px 14px; font-size:13.5px; color:var(--muted); background:#fbfcfe; }
+  .rowdetail.show { display:block; }
+  .legend { text-align:center; font-size:12.5px; color:var(--faint); margin-top:12px; }
+  .cmp-row b, table.val b { font-weight:700; color:var(--ink); }
+
+  /* Reviews + G2 bar */
+  .reviews { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; margin-top:28px; }
+  .review { background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px; display:flex; flex-direction:column; transition:box-shadow .2s ease; }
+  .review:hover { box-shadow:0 6px 22px rgba(22,33,47,.06); }
+  .review p.quote { font-size:14px; font-style:italic; flex:1; }
+  .review .who { display:flex; align-items:center; gap:10px; margin-top:16px; }
+  .review .avatar { width:34px; height:34px; border-radius:50%; background:var(--blue-soft); color:var(--blue-ink); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .review .nm { font-size:13px; font-weight:600; }
+  .review .rl { font-size:12px; color:var(--muted); }
+  .g2bar { display:flex; align-items:center; justify-content:center; gap:14px; margin-top:26px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 22px; flex-wrap:wrap; }
+  .g2logo { width:30px; height:30px; border-radius:6px; background:#ff492c; color:#fff; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:center; }
+  .stars { color:var(--star); font-size:17px; letter-spacing:2px; }
+  .g2txt { font-size:14.5px; font-weight:600; }
+  .g2sub { font-size:13px; color:var(--muted); }
+  .g2badges { display:flex; gap:22px; justify-content:center; align-items:center; flex-wrap:wrap; }
+  .g2img { height:104px; width:auto; display:block; }
+
+  /* Ticker */
+  .ticker-wrap { display:flex; align-items:center; justify-content:center; gap:14px; min-height:230px; flex-wrap:wrap; margin-top:8px; }
+  .ticker-lead { font-size:26px; font-weight:650; white-space:nowrap; }
+  #ticker { position:relative; height:230px; min-width:540px; max-width:100%; overflow:hidden; -webkit-mask-image:linear-gradient(transparent, #000 26%, #000 74%, transparent); mask-image:linear-gradient(transparent, #000 26%, #000 74%, transparent); }
+  #ticker div { position:absolute; left:0; width:100%; font-weight:650; transition:transform .55s ease, opacity .55s ease, font-size .3s ease; white-space:nowrap; line-height:1.25; }
+
+  /* Pricing pills */
+  .pills { display:flex; gap:10px; flex-wrap:wrap; margin:30px 0 18px; justify-content:center; }
+  .pill { padding:10px 20px; border-radius:999px; border:1.5px solid var(--line); background:#fff; font-size:14px; font-weight:600; cursor:pointer; color:var(--muted); transition:all .15s ease; }
+  .pill:hover { border-color:var(--blue); color:var(--blue); }
+  .pill.active { background:var(--blue); border-color:var(--blue); color:#fff; }
+  .panel { display:none; } .panel.active { display:block; animation:fade .25s ease; }
+  @keyframes fade { from { opacity:0; transform:translateY(4px);} to { opacity:1; transform:none;} }
+  table.val { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  table.val th { text-align:left; font-size:13.5px; padding:13px 14px; border-bottom:1px solid var(--line); font-weight:600; }
+  table.val th.u { background:var(--blue-soft); color:var(--blue-ink); }
+  table.val td { font-size:13.5px; padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--muted); }
+  table.val td.lbl { font-weight:600; color:var(--ink); }
+  table.val td.u { background:#f7faff; }
+  table.val tr:last-child td { border-bottom:none; }
+  .vc { font-size:13px; }
+  .note { margin-top:20px; font-size:13.5px; color:var(--muted); background:#fff; border-left:3px solid var(--blue); padding:14px 16px; border-radius:0 10px 10px 0; }
+
+  /* Migration — single seamless card */
+  .mig { background:#fff; border:1px solid var(--line); border-radius:16px; padding:30px 32px; margin-top:26px; }
+  .mig .lede { font-weight:600; font-size:15.5px; }
+  .mig .body { color:var(--muted); font-size:14.5px; margin-top:10px; }
+  .mig .how { font-weight:600; margin:22px 0 14px; }
+  .step { display:flex; gap:14px; padding:13px 0; align-items:flex-start; border-top:1px dashed var(--line); }
+  .step .n { min-width:26px; height:26px; border-radius:50%; background:var(--blue-soft); color:var(--blue-ink); font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:2px; }
+  .step p { font-size:14.5px; color:var(--muted); }
+
+  /* Competitor tiles */
+  .comp-links { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-top:28px; }
+  .comp-link { border:1px solid var(--line); border-radius:12px; padding:22px; background:#fff; font-weight:600; font-size:15px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all .15s ease; }
+  .comp-link:hover { border-color:var(--blue); box-shadow:0 6px 18px rgba(37,99,235,.08); }
+  .comp-link .arr { color:var(--faint); transition:transform .15s ease; }
+  .comp-link:hover .arr { color:var(--blue); transform:translateX(3px); }
+
+  .faq details { border:1px solid var(--line); border-radius:10px; margin-top:10px; background:#fff; }
+  .faq summary { cursor:pointer; padding:13px 16px; font-weight:600; font-size:14.5px; list-style:none; display:flex; justify-content:space-between; gap:12px; }
+  .faq summary::after { content:"+"; color:var(--faint); }
+  .faq details[open] summary::after { content:"–"; }
+  .faq .body { padding:0 16px 14px; color:var(--muted); font-size:14px; }
+  table.val.lite th.vch, table.val.lite td.vc { background:#fbfcfe; }
+  table.val.lite td.vc { font-style:italic; color:var(--faint); font-size:12.5px; }
+  table.val.lite td, table.val.lite th { padding:14px 14px; }
+  .duel { margin-top:44px; }
+  .duel-title { text-align:center; font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); }
+  .duel-verdict { text-align:center; font-size:20px; font-weight:650; margin:6px 0 18px; letter-spacing:-0.2px; }
+  .duel-cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:720px; margin:0 auto; }
+  @media (max-width:640px){ .duel-cards { grid-template-columns:1fr; } }
+  .plan-card { background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px 24px; }
+  .plan-card.u-card { border:2px solid var(--blue); }
+  .plan-name { font-size:14px; font-weight:700; }
+  .plan-price { font-size:30px; font-weight:700; margin:4px 0 12px; }
+  .plan-price span { font-size:14px; font-weight:500; color:var(--muted); }
+  .plan-card ul { list-style:none; }
+  .plan-card li { font-size:14px; color:var(--muted); padding:7px 0; border-top:1px dashed var(--line); }
+  .plan-card li b { color:var(--ink); }
+  .callout-big { text-align:center; margin-top:34px; }
+  .callout-big .big { font-size:30px; font-weight:700; letter-spacing:-0.4px; color:var(--ink); }
+  .callout-big .small { font-size:15px; color:var(--muted); margin-top:6px; }
+  .cta-strip { background:var(--blue); padding:44px 24px; text-align:center; }
+  .cta-strip.alt { background:var(--blue-soft); }
+  .cta-strip h3 { color:#fff; font-size:22px; font-weight:650; margin-bottom:18px; letter-spacing:-0.2px; }
+  .cta-strip.alt h3 { color:var(--ink); }
+  .cta-strip .btn-white { background:#fff; color:var(--blue); }
+  .cta-strip .btn-line { border:1.5px solid rgba(255,255,255,.55); color:#fff; background:transparent; }
+  .cta-strip.alt .btn-line { border:1.5px solid var(--line); color:var(--ink); background:#fff; }
+  .cta-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  footer { text-align:center; padding:40px; color:var(--faint); font-size:13px; border-top:1px solid var(--line); margin-top:30px; }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="center" style="padding-top:96px;">
+  <div class="wrap">
+    <h1>Uniqode vs. Bitly</h1>
+    <p class="sub" style="max-width:620px;">Bitly is built for short links. Uniqode is built for QR Codes. If QR is how you reach customers, Bitly's monthly limits show up fast, and Uniqode's depth takes over.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="/signup">Start for free</a>
+      <a class="btn btn-ghost" href="/demo">Book a demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- Logo band -->
+<div class="band">
+  <p>Trusted by 50,000+ growing businesses and teams</p>
+  <div class="marquee">
+    <div class="brands">
+      <span class="brand b-toyota">TOYOTA</span><span class="brand b-amazon">amazon</span><span class="brand b-revlon">REVLON</span><span class="brand b-pepsi">pepsi</span><span class="brand b-hilton">Hilton</span><span class="brand b-marriott">MARRIOTT</span><span class="brand b-wwf">WWF</span><span class="brand b-nestle">Nestl&eacute;</span>
+    </div>
+    <div class="brands" aria-hidden="true">
+      <span class="brand b-toyota">TOYOTA</span><span class="brand b-amazon">amazon</span><span class="brand b-revlon">REVLON</span><span class="brand b-pepsi">pepsi</span><span class="brand b-hilton">Hilton</span><span class="brand b-marriott">MARRIOTT</span><span class="brand b-wwf">WWF</span><span class="brand b-nestle">Nestl&eacute;</span>
+    </div>
+  </div>
+</div>
+
+<!-- Comparison Table -->
+<section>
+  <div class="wrap">
+    <h2 class="center">How does Uniqode compare to Bitly?</h2>
+    <div class="cmp" id="cmp"></div>
+    <p class="legend"><span class="mk y">&#10003;</span> included &nbsp;&middot;&nbsp; <span class="mk h">&#9680;</span> limited &nbsp;&middot;&nbsp; <span class="mk n">&#10007;</span> not offered</p>
+  </div>
+</section>
+
+<!-- What sets Uniqode apart -->
+<section>
+  <div class="wrap-wide">
+    <h2 class="center" style="margin-bottom:28px;">What sets Uniqode apart</h2>
+    <div class="ticker-wrap" style="text-align:left;">
+      <span class="ticker-lead">Teams pick Uniqode for</span>
+      <div id="ticker" style="text-align:left;"><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA: after comparison -->
+<div class="cta-strip alt">
+  <h3>See why QR-led teams choose Uniqode</h3>
+  <div class="cta-row"><a class="btn btn-primary" href="/demo">Book a demo &rarr;</a></div>
+</div>
+
+<!-- Customer reviews + G2 -->
+<section class="soft">
+  <div class="wrap-wide">
+    <h2 class="center">Why customers switch to Uniqode</h2>
+    <div class="reviews">
+      <div class="review"><p class="quote">"Uniqode has been an essential tool for helping us maintain consistency and flexibility as our franchise system grows. Being able to update destinations without reprinting codes has saved us a lot of time, money, and headaches."</p><div class="who"><div class="avatar">NL</div><div><div class="nm">Nicholas L.</div><div class="rl">Franchise owner</div></div></div></div>
+      <div class="review"><p class="quote">"I appreciate being able to track our marketing efforts and access data about our viewers. This helps us identify which marketing strategies are gaining traction, as well as providing insight into who is engaging with us and when."</p><div class="who"><div class="avatar">MC</div><div><div class="nm">Michelle C.</div><div class="rl">Economic Development Coordinator</div></div></div></div>
+      <div class="review"><p class="quote">"We use Uniqode to keep our projects updated for homeowners, contractors, and sub-trades. They scan the QR code at the jobsite and find all aspects of the project, updated specs for each trade, contact info for all involved."</p><div class="who"><div class="avatar">RM</div><div><div class="nm">Radley M.</div><div class="rl">construction business owner</div></div></div></div>
+    </div>
+    <div class="g2bar" style="flex-direction:column; gap:18px; padding:24px 22px;">
+      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:center;">
+        <div class="g2logo">G2</div><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="g2txt">4.8/5 on G2</span><span class="g2sub">500+ reviews</span>
+      </div>
+      <div class="g2badges">
+        <img class="g2img" src="badges/leader.png" alt="G2 Leader, QR Code Generator, Summer 2026" loading="lazy">
+        <img class="g2img" src="badges/roi.png" alt="G2 Best Estimated ROI, Location-Based Marketing, Summer 2026" loading="lazy">
+        <img class="g2img" src="badges/implementation.png" alt="G2 Fastest Implementation, Location-Based Marketing, Summer 2026" loading="lazy">
+        <img class="g2img" src="badges/momentum.png" alt="G2 Momentum Leader, SmartLink, Summer 2026" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="soft">
+  <div class="wrap-wide">
+    <h2 class="center">Uniqode vs. Bitly: compare the costs</h2>
+    <p class="sub center">Bitly is cheaper to start, but it meters QR Codes by the month. The more QR Codes you run, the more Uniqode pulls ahead on both capacity and price.</p>
+
+    <div class="pills" id="pricing-pills">
+      <button class="pill active" data-panel="pp1">Small and medium businesses</button>
+      <button class="pill" data-panel="pp2">Growing teams</button>
+      <button class="pill" data-panel="pp3">Enterprise</button>
+    </div>
+
+    <div class="panel active" id="pp1">
+      <table class="val lite">
+        <tr><th style="width:17%;"></th><th class="u">Uniqode</th><th>Bitly</th><th class="vch">Value comparison</th></tr>
+        <tr><td class="lbl">QR Codes</td><td class="u"><b>250</b> active ($49/mo)</td><td>10 a month ($29/mo)</td><td class="vc">Bitly is $20 less but adds only 10 new QR Codes a month. Uniqode gives 250 active codes you can edit anytime.</td></tr>
+        <tr><td class="lbl">QR Code types</td><td class="u">URL, vCard, Wi-Fi, PDF, app, forms</td><td>URL only</td><td class="vc">Uniqode makes the full range of QR Codes; Bitly QR Codes point to a URL and nothing else.</td></tr>
+        <tr><td class="lbl">Scan locations</td><td class="u">GPS-level from $49/mo</td><td>City-level at $199/mo</td><td class="vc">Uniqode maps exact scan locations from $49; Bitly's city-level data starts at $199.</td></tr>
+        <tr><td class="lbl">Scan data history</td><td class="u">Lifetime on higher plans</td><td>30 days at $10/mo</td><td class="vc">Uniqode keeps your scan history; Bitly's Core plan holds 30 days.</td></tr>
+      </table>
+    </div>
+
+    <div class="panel" id="pp2">
+      <table class="val lite">
+        <tr><th style="width:17%;"></th><th class="u">Uniqode</th><th>Bitly</th><th class="vch">Value comparison</th></tr>
+        <tr><td class="lbl">Best value plan</td><td class="u">Plus: <b>500</b> codes ($99/mo)</td><td>Premium: 200 QR/month ($199/mo)</td><td class="vc">Uniqode costs half as much and gives 2.5x the QR Codes, with no monthly reset.</td></tr>
+        <tr><td class="lbl">Scan data history</td><td class="u">Lifetime on Business+</td><td>1 year at $199/mo</td><td class="vc">Uniqode keeps scan data for life on Business+; Bitly's $199 plan holds one year.</td></tr>
+        <tr><td class="lbl">Bulk QR creation</td><td class="u"><b>1,000</b> per batch ($99/mo)</td><td>200 per upload ($199/mo)</td><td class="vc">Uniqode creates 1,000 codes per batch at $99; Bitly reaches 200 per upload at $199.</td></tr>
+        <tr><td class="lbl">Conditional routing</td><td class="u">Smart Rules ($49/mo)</td><td>Not offered</td><td class="vc">One Uniqode code can route by time, location, device, and language; Bitly has no equivalent.</td></tr>
+      </table>
+    </div>
+
+    <div class="panel" id="pp3">
+      <table class="val lite">
+        <tr><th style="width:17%;"></th><th class="u">Uniqode</th><th>Bitly</th><th class="vch">Value comparison</th></tr>
+        <tr><td class="lbl">QR Codes</td><td class="u">Custom volume</td><td>Custom volume</td><td class="vc">Both scale to enterprise QR volume; Uniqode is built around QR, Bitly around links.</td></tr>
+        <tr><td class="lbl">Compliance</td><td class="u">SOC 2 Type 2, GDPR, HIPAA, ISO 27001, BAAs</td><td>SOC 2, GDPR</td><td class="vc">Uniqode adds HIPAA and ISO 27001 for regulated buyers. [VERIFY Bitly compliance]</td></tr>
+        <tr><td class="lbl">QR depth</td><td class="u">Smart Rules, GS1, GPS, ScanGuard, lifetime data</td><td>URL QR with click tracking</td><td class="vc">Uniqode brings QR-native depth; Bitly brings link-native depth.</td></tr>
+        <tr><td class="lbl">Short links</td><td class="u">Bulk short links and custom domains</td><td>Branded links, domain tools, link-in-bio</td><td class="vc">Bitly is the deeper link platform. If short links are your primary channel, that matters.</td></tr>
+      </table>
+    </div>
+
+    <p class="note">Note: Bitly counts QR Codes per month on every plan, so the limits above reset rather than accumulate. Uniqode's QR Code counts are an active pool you can edit and reuse. Confirm current limits on each platform's pricing page before you buy.</p>
+  </div>
+</section>
+
+<!-- CTA: after value -->
+<div class="cta-strip">
+  <h3>Get more QR Codes for your money</h3>
+  <div class="cta-row"><a class="btn btn-white" href="/demo">See Uniqode in action &rarr;</a><a class="btn btn-line" href="/demo">Book a demo</a></div>
+</div>
+
+<!-- Where Bitly wins -->
+<section>
+  <div class="wrap">
+    <h2 class="center">Where Bitly is the better pick</h2>
+    <p class="sub center">Bitly is excellent at what it was built for. If this is your world, it's the right tool.</p>
+    <div class="mig" style="margin-top:24px;">
+      <p class="body" style="margin-top:0;"><b>Short links at scale.</b> Bitly is the category standard for branded short links and custom back-halves. If shortening and tracking links is your primary channel, Bitly does it deeper than any QR platform.</p>
+      <p class="body"><b>Link infrastructure.</b> Domain tools like Domain Guard, a 404 fixer, and root routing, plus link-in-bio and a UTM builder, make Bitly a complete link-management system.</p>
+      <p class="body"><b>A known short domain.</b> A bit.ly link is a recognized trust signal. For pure link sharing, that recognition has real value.</p>
+      <p class="body" style="margin-bottom:0;">If links are your main channel and QR Codes are occasional, Bitly is the simpler fit. The rest of this page is for teams whose primary channel is QR.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Migration -->
+<section class="soft">
+  <div class="wrap">
+    <h2 class="center">Switching from Bitly? You don't have to start over.</h2>
+    <div class="mig" style="margin-top:26px;">
+      <p class="body" style="margin-top:0;">A hospitality brand managing QR Codes across dozens of properties came to us capped on their Bitly plan. They needed branded QR Codes pointing to mobile landing pages, and Bitly's QR limit had become a wall.</p>
+      <p class="body">Their concern wasn't picking a new platform. It was the QR Codes already printed across signage, room collateral, and guest touchpoints, and whether moving meant reprinting all of them.</p>
+    </div>
+
+    <h3 style="font-size:19px; font-weight:650; margin-top:40px;">How we made the switch easier</h3>
+    <div style="margin-top:6px;">
+      <div class="step"><div class="n">1</div><div><p style="font-weight:650; color:var(--ink);">Keep existing QR Codes live</p><p>If your QR Codes use a custom domain, we can help move your existing Bitly QR Codes to Uniqode without replacing the ones already printed on signage, packaging, and marketing materials.</p></div></div>
+      <div class="step"><div class="n">2</div><div><p style="font-weight:650; color:var(--ink);">Start new campaigns immediately</p><p>There's no need to wait for your Bitly plan to lapse. New QR Codes can go live on Uniqode while the migration is underway.</p></div></div>
+      <div class="step"><div class="n">3</div><div><p style="font-weight:650; color:var(--ink);">Get hands-on migration support</p><p>A dedicated customer success manager helps plan the move, onboard your team, and make sure nothing falls through the cracks.</p></div></div>
+    </div>
+
+    <div class="center" style="margin-top:28px;"><a class="btn btn-primary" href="/demo">Book my Demo</a></div>
+  </div>
+</section>
+
+<!-- Other competitors -->
+<section>
+  <div class="wrap-wide center">
+    <h2>See how Uniqode compares to every QR platform</h2>
+    <p class="sub">Weighing more than one option? Here's how Uniqode stacks up against other alternatives.</p>
+    <div class="comp-links">
+      <a class="comp-link" href="index.html" style="text-decoration:none; color:inherit;">Uniqode vs. Flowcode <span class="arr">&rarr;</span></a>
+      <div class="comp-link">Uniqode vs. QR TIGER <span class="arr">&rarr;</span></div>
+      <div class="comp-link">Uniqode vs. ME-QR <span class="arr">&rarr;</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap faq">
+    <h2 class="center">FAQ &mdash; Uniqode vs. Bitly</h2>
+    <div class="pills" id="faq-pills">
+      <button class="pill active" data-panel="fq1">Switching from Bitly</button>
+      <button class="pill" data-panel="fq2">Uses</button>
+      <button class="pill" data-panel="fq3">Pricing</button>
+      <button class="pill" data-panel="fq4">Capabilities</button>
+    </div>
+
+    <div class="panel active" id="fq1">
+      <details><summary>Can I move my Bitly QR Codes to Uniqode?</summary><div class="body">Yes, if your QR Codes use a custom domain. Those move to Uniqode and keep working as printed. QR Codes on Bitly's own short domain can't move, so you can keep running them on Bitly while you build new campaigns on Uniqode.</div></details>
+      <details><summary>Will I lose my scan history when I switch?</summary><div class="body">Export your Bitly data before your plan lapses. Bitly holds scan history for 30 days to 2 years depending on plan, so the export is your permanent copy. Uniqode starts tracking each code fresh from the day it moves over.</div></details>
+      <details><summary>Do I have to reprint anything?</summary><div class="body">Not if your QR Codes use a custom domain. Codes already printed on signage, packaging, or collateral keep working after the move. Codes on Bitly's short domain stop working when your plan ends, so plan new prints for those.</div></details>
+      <details><summary>Can Uniqode shorten links too?</summary><div class="body">Yes. Uniqode creates short links, including in bulk, alongside QR Codes, so a team moving off Bitly can keep both in one place. Uniqode's depth is in QR; if short links are your only need, see the section above on where Bitly fits best.</div></details>
+    </div>
+
+    <div class="panel" id="fq2">
+      <details><summary>Is Bitly good for QR Codes?</summary><div class="body">Bitly makes dynamic URL QR Codes with click tracking, which works for simple link-to-website use. It caps QR Codes per month (2 to 200 by plan) and supports URL codes only, so for QR-led campaigns or multiple QR types, it runs out of room quickly.</div></details>
+      <details><summary>Which is better for QR-led marketing campaigns?</summary><div class="body">Uniqode. It treats QR as the primary channel: hundreds of active codes, every QR type, Smart Rules routing, GPS-level analytics, and retargeting. Bitly treats QR as an add-on to link management, metered by the month.</div></details>
+      <details><summary>Which is better for short links?</summary><div class="body">Bitly. Branded short links, custom back-halves, and domain tools are its core product, and a bit.ly link is a recognized trust signal. Uniqode shortens links too, but link management is Bitly's home ground.</div></details>
+    </div>
+
+    <div class="panel" id="fq3">
+      <details><summary>How many QR Codes does Bitly allow?</summary><div class="body">Bitly allows 2 QR Codes a month free, 5 at $10, 10 at $29, and 200 at $199, counted per month. Uniqode includes 15, 250, 500, or 2,000 active codes by plan, which you can edit and reuse rather than recreate monthly.</div></details>
+      <details><summary>Is Uniqode cheaper than Bitly for QR Codes?</summary><div class="body">For real QR volume, yes. Bitly's $199 plan caps QR at 200 a month; Uniqode's $99 plan includes 500 active codes. The more QR Codes you run, the more Uniqode wins on both price and capacity.</div></details>
+      <details><summary>How much do Uniqode and Bitly cost?</summary><div class="body">Uniqode publishes plans at $9, $49, $99, and $399 a month plus Enterprise. Bitly publishes Free, Core $10, Growth $29, Premium $199, plus Enterprise. Bitly is cheaper at entry; Uniqode gives far more QR capacity at each step up.</div></details>
+    </div>
+
+    <div class="panel" id="fq4">
+      <details><summary>What QR Code types does Bitly support?</summary><div class="body">Bitly supports dynamic URL QR Codes only. Uniqode adds vCard, Wi-Fi, PDF, app download, social, forms, Linkpages, geolocation, and multi-language QR Codes.</div></details>
+      <details><summary>Does Bitly have Smart Rules or conditional routing?</summary><div class="body">No. Bitly QR Codes point to one destination. Uniqode's Smart Rules route a single code by time, location, device, device language, or scan count, with the conditions combinable.</div></details>
+      <details><summary>Do Uniqode and Bitly track scan locations?</summary><div class="body">Both track scans. Uniqode shows GPS-level locations from $49 when scanners allow it, with city, state, and country otherwise. Bitly's city-level data starts at its $199 Premium plan.</div></details>
+      <details><summary>Can QR Codes be password protected?</summary><div class="body">Uniqode password-protects any QR Code. Bitly lists no password protection for QR Codes.</div></details>
+    </div>
+  </div>
+</section>
+
+<footer>Uniqode vs. Bitly — page build, June 13, 2026</footer>
+
+<script>
+(function(){
+  var rows = [
+    ["QR Codes you can create","y","250 active for $49/mo","h","10 a month at $29/mo","Uniqode includes 15, 250, 500, or 2,000 active QR Codes you can edit and reuse. Bitly counts QR Codes per month: 2 free, 5 at $10, 10 at $29, 200 at $199."],
+    ["QR Code types","y","URL, vCard, Wi-Fi, PDF, app, forms","h","URL only","Uniqode makes the full range of QR Codes, including vCard, Wi-Fi, PDF, app download, and forms. Bitly QR Codes point to a URL and nothing else."],
+    ["Smart Rules (conditional routing)","y","time, location, device, language, scan count","n","not offered","One Uniqode code can route to different destinations by context, and rules combine. Bitly QR Codes point to a single destination."],
+    ["GPS scan locations","y","from $49/mo","h","city-level at $199/mo","Uniqode maps exact scan locations when scanners allow GPS, with city, state, and country otherwise. Bitly's city-level data starts at its $199 Premium plan."],
+    ["Scan data history","y","lifetime on higher plans","h","30 days to 2 years","Uniqode keeps scan history for life on Business+. Bitly holds 30 days at Core, 4 months at Growth, 1 year at Premium, 2 years at Enterprise."],
+    ["Bulk QR creation","y","hundreds per batch","h","from $29/mo","Uniqode bulk-creates 250 to 2,000 codes per batch and static codes in the thousands. Bitly bulk creation starts at $29 (10 per upload) and reaches 200 per upload at $199."],
+    ["GS1 QR Codes","y","included","n","not offered","Uniqode makes GS1-compliant QR Codes that carry product and batch data for the 2027 packaging standards. Bitly lists no GS1 support."],
+    ["Digital business cards","y","full product","h","landing-page style","Uniqode has a dedicated digital business card product with wallet cards and two-way contact capture. Bitly offers card-style landing pages."],
+    ["Compliance","y","SOC 2, GDPR, HIPAA, ISO 27001","h","SOC 2, GDPR","Uniqode adds HIPAA and ISO 27001 for regulated buyers and signs BAAs. [VERIFY Bitly compliance from their trust center before publish.]"],
+    ["Short links and branded links","h","yes, including bulk","y","the core product","Bitly is the deeper link platform: branded short links, custom back-halves, and domain tools. Uniqode shortens links too, including in bulk, but link management is Bitly's home ground."]
+  ];
+    function emph(t){ return t.replace(/(\$?\d[\d,]*(?:\.\d+)?(?:M|K)?)/g, '<b>$1</b>'); }
+  var html = '<div class="cmp-head"><div></div><div class="u">Uniqode</div><div class="f">Bitly</div></div>';
+  rows.forEach(function(r, i){
+    html += '<div class="cmp-block">'
+      + '<div class="cmp-row">'
+      + '<div class="lbl"><span>' + r[0] + '</span><button class="eye" data-row="' + i + '" aria-label="More about ' + r[0] + '" title="More about this row">' + eyeSvg + '</button></div>'
+      + '<div class="u"><span class="mk ' + r[1] + '">' + (r[1]==='y'?'✓':r[1]==='h'?'◐':'✕') + '</span>' + emph(r[2]) + '</div>'
+      + '<div class="f"><span class="mk ' + r[3] + '">' + (r[3]==='y'?'✓':r[3]==='h'?'◐':'✕') + '</span>' + emph(r[4]) + '</div>'
+      + '</div>'
+      + '<div class="rowdetail" id="rd' + i + '">' + r[5] + '</div>'
+      + '</div>';
+  });
+  document.getElementById('cmp').innerHTML = html;
+  document.querySelectorAll('.eye').forEach(function(b){
+    b.addEventListener('click', function(){
+      var d = document.getElementById('rd' + b.getAttribute('data-row'));
+      var isOpen = d.classList.contains('show');
+      d.classList.toggle('show', !isOpen);
+      b.classList.toggle('open', !isOpen);
+    });
+  });
+
+  var items = ["QR Codes by the hundreds, not the month","every QR Code type","Smart Rules","GS1 QR Codes","GPS scan analytics","ScanGuard"];
+  var slots = document.querySelectorAll('#ticker div');
+  var idx = 0;
+  function paint(){
+    for (var p = 0; p < 5; p++) {
+      var offset = p - 2;
+      var el = slots[p];
+      el.textContent = items[(idx + offset + items.length * 10) % items.length];
+      el.style.fontSize = offset === 0 ? '26px' : '22px';
+      el.style.transform = 'translateY(' + (offset * 46 + 99) + 'px)';
+      el.style.opacity = offset === 0 ? '1' : (Math.abs(offset) === 1 ? '0.32' : '0.1');
+    }
+  }
+  paint();
+  setInterval(function(){ idx = (idx + 1) % items.length; paint(); }, 2200);
+
+  function wireTabs(containerId){
+    var c = document.getElementById(containerId);
+    var pills = c.querySelectorAll('.pill');
+    pills.forEach(function(pl){
+      pl.addEventListener('click', function(){
+        pills.forEach(function(x){ x.classList.remove('active'); });
+        pl.classList.add('active');
+        var section = c.parentElement;
+        section.querySelectorAll('.panel').forEach(function(pn){ pn.classList.remove('active'); });
+        document.getElementById(pl.getAttribute('data-panel')).classList.add('active');
+      });
+    });
+  }
+  wireTabs('pricing-pills');
+  wireTabs('faq-pills');
+})();
+</script>
+</body>
+</html>
